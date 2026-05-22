@@ -24,19 +24,18 @@ function Home() {
       <Header />
 
       {/* HERO */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[85vh] flex items-center">
         <div
-          className="absolute inset-0 opacity-30 pointer-events-none"
+          className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage: `url(${skyline})`,
             backgroundSize: "cover",
-            backgroundPosition: "center right",
+            backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
-            mixBlendMode: "lighten",
           }}
           aria-hidden
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/40" />
         <div className="container mx-auto px-6 pt-20 pb-28 lg:pt-28 lg:pb-40 relative">
           <div className="max-w-3xl animate-fade-up">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full gold-border text-xs tracking-[0.25em] uppercase text-gold mb-8">
