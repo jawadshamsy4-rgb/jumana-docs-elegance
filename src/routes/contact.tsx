@@ -49,7 +49,7 @@ function ContactPage() {
       <section className="container mx-auto px-6 grid lg:grid-cols-5 gap-8 pb-24">
         <div className="lg:col-span-2 space-y-5">
           {[
-            { icon: Phone, label: "Company", value: "050 506 4847", href: "tel:0505064847" },
+            
             { icon: Phone, label: "Mobile", value: "054 549 9790", href: "tel:0545499790" },
             { icon: Phone, label: "Mobile", value: "054 547 6784", href: "tel:0545476784" },
             { icon: Mail, label: "Email", value: "jumanahdoc@gmail.com", href: "mailto:jumanahdoc@gmail.com" },
