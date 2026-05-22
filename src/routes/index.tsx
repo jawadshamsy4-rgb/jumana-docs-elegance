@@ -136,3 +136,90 @@ function Home() {
     </div>
   );
 }
+
+const consultationSchema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(100),
+  email: z.string().trim().email("Invalid email").max(255),
+  phone: z.string().trim().max(30).optional().or(z.literal("")),
+  message: z.string().trim().min(1, "Message is required").max(1000),
+});
+
+function ConsultationForm() {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = consultationSchema.safeParse(form);
+    if (!result.success) {
+      toast.error(result.error.issues[0]?.message ?? "Please check your inputs");
+      return;
+    }
+    setSubmitting(true);
+    const lines = [
+      `Name: ${result.data.name}`,
+      `Email: ${result.data.email}`,
+      result.data.phone ? `Phone: ${result.data.phone}` : "",
+      "",
+      result.data.message,
+    ].filter(Boolean).join("\n");
+    const url = `https://wa.me/971505064847?text=${encodeURIComponent(lines)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+    toast.success("Opening WhatsApp to send your message");
+    setForm({ name: "", email: "", phone: "", message: "" });
+    setSubmitting(false);
+  };
+
+  return (
+    <div className="luxury-card rounded-2xl p-8 backdrop-blur-sm">
+      <div className="text-xs tracking-[0.3em] uppercase text-gold mb-2">Get a Free Consultation</div>
+      <h3 className="font-display text-2xl md:text-3xl font-bold mb-6">Start the <span className="gold-text">Conversation</span></h3>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="name" className="block text-xs uppercase tracking-wider text-muted-foreground mb-2">Full Name *</label>
+            <input
+              id="name" name="name" type="text" required maxLength={100}
+              value={form.name} onChange={onChange} placeholder="John Smith"
+              className="w-full rounded-md bg-input/40 border border-border px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-gold transition-colors"
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-xs uppercase tracking-wider text-muted-foreground mb-2">Email *</label>
+            <input
+              id="email" name="email" type="email" required maxLength={255}
+              value={form.email} onChange={onChange} placeholder="your@email.com"
+              className="w-full rounded-md bg-input/40 border border-border px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-gold transition-colors"
+            />
+          </div>
+        </div>
+        <div>
+          <label htmlFor="phone" className="block text-xs uppercase tracking-wider text-muted-foreground mb-2">Phone Number</label>
+          <input
+            id="phone" name="phone" type="tel" maxLength={30}
+            value={form.phone} onChange={onChange} placeholder="+971 XX XXX XXXX"
+            className="w-full rounded-md bg-input/40 border border-border px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-gold transition-colors"
+          />
+        </div>
+        <div>
+          <label htmlFor="message" className="block text-xs uppercase tracking-wider text-muted-foreground mb-2">Message *</label>
+          <textarea
+            id="message" name="message" required maxLength={1000} rows={4}
+            value={form.message} onChange={onChange} placeholder="Tell us about your requirements..."
+            className="w-full rounded-md bg-input/40 border border-border px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-gold transition-colors resize-none"
+          />
+        </div>
+        <button
+          type="submit" disabled={submitting}
+          className="w-full inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm"
+        >
+          <Send className="w-4 h-4" /> Send Message
+        </button>
+      </form>
+    </div>
+  );
+}
