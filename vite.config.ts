@@ -1,9 +1,16 @@
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
+import tsConfigPaths from "vite-tsconfig-paths";
+import { nitro } from "nitro/vite";
 
-// Deploy target: Vercel (disables Cloudflare plugin, uses Vercel preset)
 export default defineConfig({
-  cloudflare: false,
-  tanstackStart: {
-    target: "vercel",
-  },
+  plugins: [
+    tailwindcss(),
+    tsConfigPaths({ projects: ["./tsconfig.json"] }),
+    tanstackStart(),
+    nitro({ preset: "vercel" }),
+    viteReact(),
+  ],
 });
