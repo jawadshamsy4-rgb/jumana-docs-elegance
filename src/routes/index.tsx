@@ -38,35 +38,42 @@ function Home() {
           }}
           aria-hidden
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/40" />
-        <div className="container mx-auto px-6 pt-20 pb-28 lg:pt-28 lg:pb-40 relative">
-          <div className="max-w-3xl animate-fade-up">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full gold-border text-xs tracking-[0.25em] uppercase text-gold mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold" /> UAE All Documents Clearing
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/60" />
+        <div className="container mx-auto px-6 pt-20 pb-28 lg:pt-28 lg:pb-32 relative">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="max-w-3xl animate-fade-up">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full gold-border text-xs tracking-[0.25em] uppercase text-gold mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-gold" /> UAE All Documents Clearing
+              </div>
+              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6">
+                <span className="gold-text">JUMANAH</span>
+                <br />
+                <span className="text-foreground/95">Typing & Documents</span>
+                <br />
+                <span className="text-foreground/95">Clearing</span>
+              </h1>
+              <div className="gold-divider w-32 my-8" />
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed mb-10">
+                A premium UAE partner for visa processing, Emirates ID, trade licensing,
+                PRO services and complete business setup — handled with precision and discretion.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link to="/services" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm">
+                  Explore Services <ArrowRight className="w-4 h-4" />
+                </Link>
+                <a href="tel:0505064847" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-gold text-sm">
+                  <Phone className="w-4 h-4" /> 050 506 4847
+                </a>
+              </div>
             </div>
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-6">
-              <span className="gold-text">JUMANAH</span>
-              <br />
-              <span className="text-foreground/95">Typing & Documents</span>
-              <br />
-              <span className="text-foreground/95">Clearing</span>
-            </h1>
-            <div className="gold-divider w-32 my-8" />
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed mb-10">
-              A premium UAE partner for visa processing, Emirates ID, trade licensing,
-              PRO services and complete business setup — handled with precision and discretion.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/services" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm">
-                Explore Services <ArrowRight className="w-4 h-4" />
-              </Link>
-              <a href="tel:0505064847" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-gold text-sm">
-                <Phone className="w-4 h-4" /> 050 506 4847
-              </a>
+
+            <div className="lg:justify-self-end w-full max-w-md animate-fade-up">
+              <ConsultationForm />
             </div>
           </div>
         </div>
       </section>
+
 
       {/* STATS */}
       <section className="container mx-auto px-6 -mt-12 relative z-10">
