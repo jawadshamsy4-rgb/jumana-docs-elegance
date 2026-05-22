@@ -37,10 +37,10 @@ export function Header() {
         </nav>
 
         <a
-          href="tel:0505064847"
+          href="tel:0545499790"
           className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full btn-gold text-sm"
         >
-          <Phone className="w-4 h-4" /> 050 506 4847
+          <Phone className="w-4 h-4" /> 054 549 9790
         </a>
 
         <button className="md:hidden text-gold" onClick={() => setOpen(!open)} aria-label="Menu">
@@ -62,8 +62,8 @@ export function Header() {
                 {n.label}
               </Link>
             ))}
-            <a href="tel:0505064847" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full btn-gold text-sm w-fit">
-              <Phone className="w-4 h-4" /> 050 506 4847
+            <a href="tel:0545499790" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full btn-gold text-sm w-fit">
+              <Phone className="w-4 h-4" /> 054 549 9790
             </a>
           </div>
         </div>
