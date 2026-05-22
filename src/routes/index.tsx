@@ -121,8 +121,8 @@ function Home() {
               Speak with our team today and let us handle every detail with the care it deserves.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <a href="tel:0505064847" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm">
-                <Phone className="w-4 h-4" /> Call 050 506 4847
+              <a href="tel:0545499790" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm">
+                <Phone className="w-4 h-4" /> Call 054 549 9790
               </a>
               <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-gold text-sm">
                 Get in Touch <ArrowRight className="w-4 h-4" />
