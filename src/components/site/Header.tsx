@@ -16,9 +16,7 @@ export function Header() {
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-full border border-[oklch(0.78_0.13_78/0.5)] flex items-center justify-center font-display text-gold text-xl font-bold">
-            J
-          </div>
+          <img src={logo} alt="Jumanah Typing & Documents Clearing" className="w-12 h-12 object-contain" />
           <div className="leading-tight">
             <div className="font-display text-base font-bold tracking-wide gold-text">JUMANAH</div>
             <div className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase">Typing & Clearing</div>
