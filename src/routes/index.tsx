@@ -167,7 +167,7 @@ function ConsultationForm() {
       "",
       result.data.message,
     ].filter(Boolean).join("\n");
-    const url = `https://wa.me/971505064847?text=${encodeURIComponent(lines)}`;
+    const url = `https://wa.me/971545499790?text=${encodeURIComponent(lines)}`;
     window.open(url, "_blank", "noopener,noreferrer");
     toast.success("Opening WhatsApp to send your message");
     setForm({ name: "", email: "", phone: "", message: "" });
