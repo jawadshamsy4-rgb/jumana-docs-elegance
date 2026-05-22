@@ -61,8 +61,8 @@ function Home() {
                 <Link to="/services" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm">
                   Explore Services <ArrowRight className="w-4 h-4" />
                 </Link>
-                <a href="tel:0505064847" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-gold text-sm">
-                  <Phone className="w-4 h-4" /> 050 506 4847
+                <a href="tel:0545499790" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-gold text-sm">
+                  <Phone className="w-4 h-4" /> 054 549 9790
                 </a>
               </div>
             </div>
