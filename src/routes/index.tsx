@@ -96,12 +96,23 @@ function Home() {
 
       {/* SERVICES */}
       <section className="container mx-auto px-6 py-28">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="text-xs tracking-[0.3em] uppercase text-gold mb-4">Services Include</div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
-            A complete suite for <span className="gold-text">UAE documentation</span>
-          </h2>
-          <div className="gold-divider w-24 mx-auto" />
+        <div className="relative h-48 md:h-64 rounded-2xl overflow-hidden mb-16 luxury-card">
+          <img
+            src={dubaiServices}
+            alt="Dubai business district skyline"
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="lazy"
+            width={1920}
+            height={800}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent" />
+          <div className="absolute inset-0 flex flex-col items-center justify-end text-center pb-8 px-6">
+            <div className="text-xs tracking-[0.3em] uppercase text-gold mb-3">Services Include</div>
+            <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
+              A complete suite for <span className="gold-text">UAE documentation</span>
+            </h2>
+            <div className="gold-divider w-24 mx-auto" />
+          </div>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s, i) => (
