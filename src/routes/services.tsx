@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, useMatch } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ServiceCard } from "@/components/site/ServiceCard";
-import { services } from "@/lib/services";
+import { useServices } from "@/lib/site-data";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -18,10 +18,9 @@ export const Route = createFileRoute("/services")({
 
 function ServicesPage() {
   const isServiceDetail = Boolean(useMatch({ from: "/services/$slug", shouldThrow: false }));
+  const { data: services, isLoading } = useServices();
 
-  if (isServiceDetail) {
-    return <Outlet />;
-  }
+  if (isServiceDetail) return <Outlet />;
 
   return (
     <div className="min-h-screen">
@@ -37,11 +36,22 @@ function ServicesPage() {
         </p>
       </section>
       <section className="container mx-auto px-6 pb-24">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((s, i) => (
-            <ServiceCard key={s.title} {...s} index={i} />
-          ))}
-        </div>
+        {isLoading ? (
+          <p className="text-muted-foreground">Loading services…</p>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services?.map((s, i) => (
+              <ServiceCard
+                key={s.id}
+                iconName={s.icon}
+                title={s.title}
+                desc={s.description}
+                slug={s.slug}
+                index={i}
+              />
+            ))}
+          </div>
+        )}
       </section>
       <Footer />
     </div>

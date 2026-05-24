@@ -1,140 +1,32 @@
-import {
-  FileCheck, Building2, IdCard, HeartPulse, Briefcase, Building,
-  ShieldCheck, Users, FileText, Plane,
-} from "lucide-react";
+// Fallback images for the originally-seeded service slugs.
+// All service text/icons/highlights now come from the `services` table.
+import imgVisa from "@/assets/svc-visa-processing.jpg";
+import imgMoi from "@/assets/svc-moi.jpg";
+import imgEid from "@/assets/svc-emirates-id.jpg";
+import imgMedical from "@/assets/svc-medical.jpg";
+import imgTrade from "@/assets/svc-trade-license.jpg";
+import imgBusiness from "@/assets/svc-business-setup.jpg";
+import imgPro from "@/assets/svc-pro.jpg";
+import imgMohre from "@/assets/svc-mohre.jpg";
+import imgIcp from "@/assets/svc-icp.jpg";
+import imgTyping from "@/assets/svc-typing.jpg";
+import imgFallback from "@/assets/dubai-highrise.jpg";
 
-export const services = [
-  {
-    slug: "visa-processing",
-    icon: FileCheck,
-    title: "Visa Processing",
-    desc: "Complete assistance for new visas, visa renewals, cancellations, status change, family visa applications, and visit visa services.",
-    long: "We handle every step of UAE visa processing — new employment visas, family sponsorship, visit visas, renewals, cancellations and in-country status change. Our team coordinates directly with immigration and typing centers so you avoid queues and paperwork errors.",
-    highlights: [
-      "New employment & family visas",
-      "Visit visa and tourist visa",
-      "Renewals and cancellations",
-      "Status change (in-country)",
-      "Sponsorship documentation",
-    ],
-  },
-  {
-    slug: "moi-services",
-    icon: Building2,
-    title: "MOI Services",
-    desc: "Support for Ministry of Interior services including application processing, approvals, updates, and online submissions.",
-    long: "End-to-end Ministry of Interior services — from form submissions and approvals to records updates and online portal transactions. We make sure the right documents reach the right authority the first time.",
-    highlights: [
-      "Online MOI submissions",
-      "Approvals and renewals",
-      "Records and data updates",
-      "Authority follow-up",
-    ],
-  },
-  {
-    slug: "emirates-id",
-    icon: IdCard,
-    title: "Emirates ID Services",
-    desc: "Application, renewal, replacement, biometric appointment booking, and Emirates ID updates handled professionally.",
-    long: "From a brand-new Emirates ID application to renewals, lost-card replacements and biometric appointments — we book, fill and follow up so your ID is ready without the back-and-forth.",
-    highlights: [
-      "New Emirates ID applications",
-      "Renewals and replacements",
-      "Biometric appointment booking",
-      "Data updates and corrections",
-    ],
-  },
-  {
-    slug: "medical-insurance",
-    icon: HeartPulse,
-    title: "Medical & Insurance",
-    desc: "Medical test appointments, health insurance registration, renewal, and related documentation support.",
-    long: "We arrange UAE medical fitness tests, health insurance enrollments and renewals, and any supporting documentation required for visa and employment processes.",
-    highlights: [
-      "Medical fitness appointments",
-      "Health insurance enrollment",
-      "Insurance renewals",
-      "Supporting documentation",
-    ],
-  },
-  {
-    slug: "trade-license",
-    icon: Briefcase,
-    title: "Trade License Services",
-    desc: "New trade license applications, renewals, modifications, cancellations, and business activity updates.",
-    long: "Whether you are starting a new business, renewing an existing license or amending your activities, we handle the full trade license lifecycle across mainland and free zones.",
-    highlights: [
-      "New trade license applications",
-      "License renewals",
-      "Activity modifications",
-      "License cancellations",
-    ],
-  },
-  {
-    slug: "business-setup",
-    icon: Building,
-    title: "Business Setup",
-    desc: "Professional guidance for company formation, mainland and free zone setup, documentation, and approvals.",
-    long: "We guide entrepreneurs and investors through complete UAE company formation — mainland, free zone or offshore — including structure advice, document preparation and government approvals.",
-    highlights: [
-      "Mainland & free zone setup",
-      "Company structure advice",
-      "Document preparation",
-      "Government approvals",
-    ],
-  },
-  {
-    slug: "pro-services",
-    icon: ShieldCheck,
-    title: "PRO Services",
-    desc: "Government liaison services including document submission, approvals, labor and immigration processing.",
-    long: "Our PRO team acts as your government liaison — submitting documents, securing approvals, and handling labor and immigration formalities so you can focus on running your business.",
-    highlights: [
-      "Government document submission",
-      "Labor & immigration processing",
-      "Approvals and attestations",
-      "Ongoing PRO support",
-    ],
-  },
-  {
-    slug: "mohre",
-    icon: Users,
-    title: "MOHRE",
-    desc: "Complete labour services including employment contracts, work permits, labour card processing, and Ministry of Human Resources compliance.",
-    long: "We handle all MOHRE-related formalities — from employment contract drafting and work permit applications to labour card renewals and ministry compliance. Our team ensures your workforce documentation meets every UAE labour regulation.",
-    highlights: [
-      "Employment contract processing",
-      "Work permit applications",
-      "Labour card renewals",
-      "MOHRE compliance & updates",
-    ],
-  },
-  {
-    slug: "icp-gdrfa",
-    icon: Plane,
-    title: "ICP / GDRFA",
-    desc: "Immigration and residency services including entry permits, residency visas, Emirates ID linking, and GDRFA portal transactions.",
-    long: "Full immigration support through the ICP (Federal Authority for Identity and Citizenship) and GDRFA (General Directorate of Residency and Foreigners Affairs) systems — entry permits, residency stamping, status updates and portal management.",
-    highlights: [
-      "Entry permit applications",
-      "Residency visa stamping",
-      "ICP portal transactions",
-      "GDRFA status updates",
-    ],
-  },
-  {
-    slug: "typing-attestation",
-    icon: FileText,
-    title: "Document Typing & Attestation",
-    desc: "Fast and accurate typing services for official documents, agreements, applications, and document attestation assistance.",
-    long: "Professional Arabic and English typing for official forms, agreements and applications — plus full document attestation support from notary to MOFA.",
-    highlights: [
-      "Arabic & English typing",
-      "Official forms & applications",
-      "Notary and MOFA attestation",
-      "Agreements and contracts",
-    ],
-  },
-] as const;
+export const serviceImageFallback: Record<string, string> = {
+  "visa-processing": imgVisa,
+  "moi-services": imgMoi,
+  "emirates-id": imgEid,
+  "medical-insurance": imgMedical,
+  "trade-license": imgTrade,
+  "business-setup": imgBusiness,
+  "pro-services": imgPro,
+  "mohre": imgMohre,
+  "icp-gdrfa": imgIcp,
+  "typing-attestation": imgTyping,
+};
 
-export type Service = (typeof services)[number];
+export const defaultServiceImage = imgFallback;
+
+export function getServiceImage(slug: string, dbImageUrl?: string | null) {
+  return dbImageUrl || serviceImageFallback[slug] || defaultServiceImage;
+}
