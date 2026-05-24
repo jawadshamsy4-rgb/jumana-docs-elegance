@@ -87,7 +87,7 @@ function ServiceDetail() {
       <section className="relative w-full">
         <img
           src={serviceImages[service.slug] ?? imgFallback}
-          alt="Dubai high-rise skyline featuring Burj Khalifa"
+          alt={`${service.title} in the UAE`}
           className="w-full h-[42vh] md:h-[58vh] object-cover"
           width={1920}
           height={1080}
