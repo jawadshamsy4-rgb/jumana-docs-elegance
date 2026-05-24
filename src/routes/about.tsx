@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Check } from "lucide-react";
+import aboutImg from "@/assets/dubai-about.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({

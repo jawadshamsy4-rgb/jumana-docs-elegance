@@ -39,7 +39,9 @@ function Home() {
           }}
           aria-hidden
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/60" />
+        {/* Lighter overlay so the Dubai picture stays visible, gradient fades only on the left where text sits */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-background/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
         <div className="container mx-auto px-6 pt-20 pb-28 lg:pt-28 lg:pb-32 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="max-w-3xl animate-fade-up">
