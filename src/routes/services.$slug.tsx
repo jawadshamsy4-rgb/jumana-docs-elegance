@@ -9,10 +9,10 @@ export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
     const service = services.find((s) => s.slug === params.slug);
     if (!service) throw notFound();
-    return { service };
+    return { slug: service.slug };
   },
   head: ({ loaderData }) => {
-    const s = loaderData?.service;
+    const s = loaderData ? services.find((service) => service.slug === loaderData.slug) : undefined;
     const title = s ? `${s.title} | Jumanah Typing & Documents Clearing` : "Service | Jumanah";
     const desc = s?.desc ?? "UAE documents clearing services.";
     return {
@@ -46,7 +46,13 @@ export const Route = createFileRoute("/services/$slug")({
 });
 
 function ServiceDetail() {
-  const { service } = Route.useLoaderData();
+  const { slug } = Route.useLoaderData();
+  const service = services.find((s) => s.slug === slug);
+
+  if (!service) {
+    return null;
+  }
+
   const Icon = service.icon;
   const others = services.filter((s) => s.slug !== service.slug).slice(0, 3);
 

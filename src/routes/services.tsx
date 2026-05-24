@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useMatch } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ServiceCard } from "@/components/site/ServiceCard";
@@ -17,6 +17,12 @@ export const Route = createFileRoute("/services")({
 });
 
 function ServicesPage() {
+  const isServiceDetail = Boolean(useMatch({ from: "/services/$slug", shouldThrow: false }));
+
+  if (isServiceDetail) {
+    return <Outlet />;
+  }
+
   return (
     <div className="min-h-screen">
       <Header />
