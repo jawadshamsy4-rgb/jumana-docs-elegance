@@ -84,6 +84,7 @@ function AboutPage() {
               />
             )}
           </div>
+          <ul className="space-y-3">
             {(a.values ?? []).map((v) => (
               <li key={v} className="flex items-start gap-3 text-sm">
                 <Check className="w-5 h-5 text-gold shrink-0 mt-0.5" />
