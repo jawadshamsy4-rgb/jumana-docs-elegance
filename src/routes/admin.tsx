@@ -12,13 +12,13 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const nav = [
+const nav: { to: string; label: string; icon: any; exact?: boolean }[] = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/services", label: "Services", icon: Briefcase },
   { to: "/admin/content", label: "Content", icon: FileText },
   { to: "/admin/branding", label: "Branding", icon: Palette },
   { to: "/admin/inquiries", label: "Inquiries", icon: Inbox },
-] as const;
+];
 
 function AdminLayout() {
   const { session, loading, isAdmin, adminLoading } = useAuth();
@@ -56,7 +56,7 @@ function AdminLayout() {
           {nav.map((n) => {
             const active = n.exact ? pathname === n.to : pathname.startsWith(n.to);
             return (
-              <Link key={n.to} to={n.to}
+              <Link key={n.to} to={n.to as any}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
                   active ? "bg-primary text-primary-foreground" : "text-foreground/80 hover:bg-muted"
                 }`}>
