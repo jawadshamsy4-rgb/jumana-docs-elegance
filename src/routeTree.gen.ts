@@ -20,6 +20,7 @@ import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as AdminInquiriesRouteImport } from './routes/admin.inquiries'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as AdminBrandingRouteImport } from './routes/admin.branding'
+import { Route as AdminAccountRouteImport } from './routes/admin.account'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
 import { Route as AdminServicesIdRouteImport } from './routes/admin.services.$id'
 
@@ -78,6 +79,11 @@ const AdminBrandingRoute = AdminBrandingRouteImport.update({
   path: '/branding',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAccountRoute = AdminAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
   id: '/services/',
   path: '/services/',
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRouteWithChildren
+  '/admin/account': typeof AdminAccountRoute
   '/admin/branding': typeof AdminBrandingRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRouteWithChildren
+  '/admin/account': typeof AdminAccountRoute
   '/admin/branding': typeof AdminBrandingRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRouteWithChildren
+  '/admin/account': typeof AdminAccountRoute
   '/admin/branding': typeof AdminBrandingRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/services'
+    | '/admin/account'
     | '/admin/branding'
     | '/admin/content'
     | '/admin/inquiries'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/services'
+    | '/admin/account'
     | '/admin/branding'
     | '/admin/content'
     | '/admin/inquiries'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/services'
+    | '/admin/account'
     | '/admin/branding'
     | '/admin/content'
     | '/admin/inquiries'
@@ -269,6 +281,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBrandingRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/account': {
+      id: '/admin/account'
+      path: '/account'
+      fullPath: '/admin/account'
+      preLoaderRoute: typeof AdminAccountRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/services/': {
       id: '/admin/services/'
       path: '/services'
@@ -287,6 +306,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAccountRoute: typeof AdminAccountRoute
   AdminBrandingRoute: typeof AdminBrandingRoute
   AdminContentRoute: typeof AdminContentRoute
   AdminInquiriesRoute: typeof AdminInquiriesRoute
@@ -296,6 +316,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAccountRoute: AdminAccountRoute,
   AdminBrandingRoute: AdminBrandingRoute,
   AdminContentRoute: AdminContentRoute,
   AdminInquiriesRoute: AdminInquiriesRoute,
