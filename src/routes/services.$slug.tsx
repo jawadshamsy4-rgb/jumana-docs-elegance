@@ -60,35 +60,37 @@ function ServiceDetail() {
     <div className="min-h-screen">
       <Header />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${detailImg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          aria-hidden
+      {/* Full-bleed Dubai high-rise banner — fully visible */}
+      <section className="relative w-full">
+        <img
+          src={detailImg}
+          alt="Dubai high-rise skyline featuring Burj Khalifa"
+          className="w-full h-[42vh] md:h-[58vh] object-cover"
+          width={1920}
+          height={1080}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40" />
-        <div className="container mx-auto px-6 py-24 lg:py-32 relative">
-          <Link to="/services" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-gold mb-8">
-            <ArrowLeft className="w-4 h-4" /> All Services
-          </Link>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 rounded-xl flex items-center justify-center gold-border bg-[oklch(0.6_0.17_145/0.08)]">
-              <Icon className="w-8 h-8 text-gold" strokeWidth={1.5} />
-            </div>
-            <div className="text-xs tracking-[0.3em] uppercase text-gold">Service</div>
-          </div>
-          <h1 className="font-display text-5xl md:text-6xl font-bold max-w-3xl mb-6">
-            <span className="gold-text">{service.title}</span>
-          </h1>
-          <div className="gold-divider w-32 my-6" />
-          <p className="text-lg text-muted-foreground max-w-2xl">{service.desc}</p>
-        </div>
+        {/* very light bottom fade only, keeps picture near 100% visible */}
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </section>
+
+      {/* Title block on clean surface */}
+      <section className="container mx-auto px-6 pt-12 pb-4 relative">
+        <Link to="/services" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-gold mb-8">
+          <ArrowLeft className="w-4 h-4" /> All Services
+        </Link>
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-16 h-16 rounded-xl flex items-center justify-center gold-border bg-[oklch(0.6_0.17_145/0.08)]">
+            <Icon className="w-8 h-8 text-gold" strokeWidth={1.5} />
+          </div>
+          <div className="text-xs tracking-[0.3em] uppercase text-red-accent">Service</div>
+        </div>
+        <h1 className="font-display text-5xl md:text-6xl font-bold max-w-3xl mb-6">
+          <span className="gold-text">{service.title}</span>
+        </h1>
+        <div className="gold-divider w-32 my-6" />
+        <p className="text-lg text-muted-foreground max-w-2xl">{service.desc}</p>
+      </section>
+
 
       {/* Content */}
       <section className="container mx-auto px-6 py-20 grid lg:grid-cols-3 gap-10">
