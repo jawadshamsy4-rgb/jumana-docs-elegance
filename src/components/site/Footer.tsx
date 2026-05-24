@@ -14,7 +14,7 @@ export function Footer() {
           </p>
         </div>
         <div>
-          <h4 className="text-gold text-sm tracking-widest uppercase mb-4">Navigate</h4>
+          <h4 className="text-red-accent text-sm tracking-widest uppercase mb-4">Navigate</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link to="/" className="hover:text-gold">Home</Link></li>
             <li><Link to="/services" className="hover:text-gold">Services</Link></li>
