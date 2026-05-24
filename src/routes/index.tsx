@@ -45,8 +45,9 @@ function Home() {
         <div className="container mx-auto px-6 pt-20 pb-28 lg:pt-28 lg:pb-32 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="max-w-3xl animate-fade-up">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full gold-border text-xs tracking-[0.25em] uppercase text-gold mb-8">
-                <span className="w-1.5 h-1.5 rounded-full bg-gold" /> UAE All Documents Clearing
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full red-border text-xs tracking-[0.25em] uppercase text-red-accent mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-accent" /> UAE All Documents Clearing
+
               </div>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6">
                 <span className="gold-text">JUMANAH</span>
