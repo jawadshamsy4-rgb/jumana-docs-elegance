@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Check } from "lucide-react";
+import aboutImg from "@/assets/dubai-about.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -34,6 +35,12 @@ function AboutPage() {
           A premium standard for <span className="gold-text">UAE documentation</span>
         </h1>
         <div className="gold-divider w-32 my-8" />
+      </section>
+
+      <section className="container mx-auto px-6 pb-12">
+        <div className="relative h-64 md:h-96 rounded-2xl overflow-hidden luxury-card">
+          <img src={aboutImg} alt="Dubai business office overlooking the skyline" loading="lazy" width={1600} height={1024} className="absolute inset-0 w-full h-full object-cover" />
+        </div>
       </section>
 
       <section className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 pb-24">

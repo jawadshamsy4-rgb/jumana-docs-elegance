@@ -38,7 +38,7 @@
 
 :root {
   --radius: 0.5rem;
-  /* Corporate white + red/green (Jumanah brand) */
+  /* Corporate white + GREEN primary, red as accent only */
   --background: oklch(1 0 0);
   --foreground: oklch(0.22 0.02 260);
   --card: oklch(1 0 0);
@@ -46,8 +46,8 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.22 0.02 260);
 
-  /* Primary = scarlet red */
-  --primary: oklch(0.58 0.22 27);
+  /* Primary = fresh green */
+  --primary: oklch(0.6 0.17 145);
   --primary-foreground: oklch(0.99 0 0);
 
   --secondary: oklch(0.97 0.005 260);
@@ -55,8 +55,8 @@
   --muted: oklch(0.96 0.005 260);
   --muted-foreground: oklch(0.45 0.02 260);
 
-  /* Accent = fresh green */
-  --accent: oklch(0.62 0.17 145);
+  /* Accent = scarlet red (used sparingly) */
+  --accent: oklch(0.58 0.22 27);
   --accent-foreground: oklch(0.99 0 0);
 
   --destructive: oklch(0.58 0.22 27);
@@ -64,17 +64,17 @@
 
   --border: oklch(0.9 0.01 260);
   --input: oklch(0.92 0.008 260);
-  --ring: oklch(0.58 0.22 27);
+  --ring: oklch(0.6 0.17 145);
 
-  /* Repurposed "gold" tokens → brand red, so existing utilities keep working */
-  --gold: oklch(0.58 0.22 27);
-  --gold-bright: oklch(0.68 0.22 27);
-  --gold-deep: oklch(0.48 0.22 27);
-  --brand-green: oklch(0.62 0.17 145);
+  /* Repurposed "gold" tokens → brand GREEN (single solid hue, no gradient mixing) */
+  --gold: oklch(0.6 0.17 145);
+  --gold-bright: oklch(0.68 0.17 145);
+  --gold-deep: oklch(0.48 0.17 145);
+  --brand-red: oklch(0.58 0.22 27);
 
-  --gradient-gold: linear-gradient(135deg, oklch(0.58 0.22 27), oklch(0.62 0.17 145));
-  --gradient-radial-gold: radial-gradient(ellipse at top, oklch(0.58 0.22 27 / 0.10), transparent 60%);
-  --shadow-gold: 0 12px 32px -12px oklch(0.58 0.22 27 / 0.35);
+  --gradient-gold: linear-gradient(135deg, oklch(0.48 0.17 145), oklch(0.6 0.17 145), oklch(0.68 0.17 145));
+  --gradient-radial-gold: radial-gradient(ellipse at top, oklch(0.6 0.17 145 / 0.10), transparent 60%);
+  --shadow-gold: 0 12px 32px -12px oklch(0.6 0.17 145 / 0.35);
   --shadow-elegant: 0 12px 40px -16px oklch(0.22 0.02 260 / 0.18);
 }
 
@@ -88,8 +88,8 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     background-image:
-      radial-gradient(ellipse 70% 40% at 50% -10%, oklch(0.58 0.22 27 / 0.06), transparent 70%),
-      radial-gradient(ellipse 60% 40% at 90% 110%, oklch(0.62 0.17 145 / 0.05), transparent 70%);
+      radial-gradient(ellipse 70% 40% at 50% -10%, oklch(0.6 0.17 145 / 0.07), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 90% 110%, oklch(0.6 0.17 145 / 0.05), transparent 70%);
   }
   h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.01em; color: var(--foreground); }
 }
@@ -97,18 +97,26 @@
 @layer utilities {
   .text-gold { color: var(--gold); }
   .bg-gold { background: var(--gold); }
-  .text-brand-green { color: var(--brand-green); }
+  .text-brand-red { color: var(--brand-red); }
   .gold-text {
-    background: var(--gradient-gold);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--gold);
   }
-  .gold-border { border: 1px solid oklch(0.58 0.22 27 / 0.25); }
+  .gold-border { border: 1px solid oklch(0.6 0.17 145 / 0.3); }
   .gold-divider {
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), var(--brand-green), transparent);
+    background: var(--gold);
     border-radius: 2px;
+  }
+  .luxury-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-elegant);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .luxury-card:hover {
+    border-color: oklch(0.6 0.17 145 / 0.45);
+    box-shadow: var(--shadow-gold);
+    transform: translateY(-3px);
   }
   .luxury-card {
     background: var(--card);
@@ -143,7 +151,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
   .animate-shimmer {
-    background: linear-gradient(90deg, transparent, oklch(0.58 0.22 27 / 0.4), oklch(0.62 0.17 145 / 0.4), transparent);
+    background: linear-gradient(90deg, transparent, oklch(0.6 0.17 145 / 0.4), transparent);
     background-size: 200% 100%;
     animation: shimmer 3s linear infinite;
   }

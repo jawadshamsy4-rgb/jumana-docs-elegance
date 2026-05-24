@@ -5,6 +5,7 @@ import { Footer } from "@/components/site/Footer";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import contactImg from "@/assets/dubai-contact.jpg";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -35,15 +36,19 @@ function ContactPage() {
     <div className="min-h-screen">
       <Header />
       <Toaster />
-      <section className="container mx-auto px-6 pt-20 pb-12">
-        <div className="text-xs tracking-[0.3em] uppercase text-gold mb-5">Contact</div>
-        <h1 className="font-display text-5xl md:text-6xl font-bold max-w-3xl">
-          Let's <span className="gold-text">talk</span>
-        </h1>
-        <div className="gold-divider w-32 my-8" />
-        <p className="text-muted-foreground max-w-xl text-lg">
-          Reach out for a quick consultation — we typically respond within the hour.
-        </p>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0" style={{ backgroundImage: `url(${contactImg})`, backgroundSize: "cover", backgroundPosition: "center" }} aria-hidden />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/30" />
+        <div className="container mx-auto px-6 pt-20 pb-16 relative">
+          <div className="text-xs tracking-[0.3em] uppercase text-gold mb-5">Contact</div>
+          <h1 className="font-display text-5xl md:text-6xl font-bold max-w-3xl">
+            Let's <span className="gold-text">talk</span>
+          </h1>
+          <div className="gold-divider w-32 my-8" />
+          <p className="text-muted-foreground max-w-xl text-lg">
+            Reach out for a quick consultation — we typically respond within the hour.
+          </p>
+        </div>
       </section>
 
       <section className="container mx-auto px-6 grid lg:grid-cols-5 gap-8 pb-24">
@@ -57,7 +62,7 @@ function ContactPage() {
           ].map((c, i) => {
             const Inner = (
               <div className="luxury-card rounded-xl p-5 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full gold-border flex items-center justify-center bg-[oklch(0.78_0.13_78/0.08)]">
+                <div className="w-12 h-12 rounded-full gold-border flex items-center justify-center bg-[oklch(0.6_0.17_145/0.08)]">
                   <c.icon className="w-5 h-5 text-gold" />
                 </div>
                 <div>
@@ -85,7 +90,7 @@ function ContactPage() {
             <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Message</label>
             <textarea
               name="message" required rows={5}
-              className="mt-2 w-full bg-[oklch(0.12_0.005_60)] border border-border focus:border-[var(--gold)] outline-none rounded-lg p-4 text-foreground transition-colors"
+              className="mt-2 w-full bg-secondary border border-border focus:border-[var(--gold)] outline-none rounded-lg p-4 text-foreground transition-colors"
             />
           </div>
           <button type="submit" disabled={sending}
@@ -105,7 +110,7 @@ function Field({ label, name, type = "text" }: { label: string; name: string; ty
       <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground">{label}</label>
       <input
         required name={name} type={type}
-        className="mt-2 w-full bg-[oklch(0.12_0.005_60)] border border-border focus:border-[var(--gold)] outline-none rounded-lg p-3.5 text-foreground transition-colors"
+        className="mt-2 w-full bg-secondary border border-border focus:border-[var(--gold)] outline-none rounded-lg p-3.5 text-foreground transition-colors"
       />
     </div>
   );
