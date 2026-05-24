@@ -1,10 +1,11 @@
-import type { LucideIcon } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { getIcon } from "@/lib/icon-map";
 
 export function ServiceCard({
-  icon: Icon, title, desc, slug, index = 0,
-}: { icon: LucideIcon; title: string; desc: string; slug: string; index?: number }) {
+  iconName, title, desc, slug, index = 0,
+}: { iconName: string; title: string; desc: string; slug: string; index?: number }) {
+  const Icon = getIcon(iconName);
   return (
     <Link
       to="/services/$slug"
@@ -19,7 +20,7 @@ export function ServiceCard({
       <h3 className="text-xl font-display font-bold mb-3 text-foreground group-hover:text-gold transition-colors">
         {title}
       </h3>
-      <p className="text-sm text-muted-foreground leading-relaxed mb-5">{desc}</p>
+      <p className="text-sm text-muted-foreground leading-relaxed mb-5 line-clamp-3">{desc}</p>
       <div className="inline-flex items-center gap-2 text-sm font-medium text-gold group-hover:gap-3 transition-all">
         Learn more <ArrowRight className="w-4 h-4" />
       </div>

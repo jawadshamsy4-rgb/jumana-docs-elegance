@@ -2,13 +2,14 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ServiceCard } from "@/components/site/ServiceCard";
-import { services } from "@/lib/services";
 import { ArrowRight, Phone, Award, Clock, ShieldCheck, Users, Send } from "lucide-react";
 import skyline from "@/assets/hero-skyline.jpg";
 import dubaiServices from "@/assets/dubai-services.jpg";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
+import { useServices, useSetting, type HeroSettings, type ContactSettings } from "@/lib/site-data";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,7 +23,27 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+const HERO_DEFAULTS: HeroSettings = {
+  badge: "UAE All Documents Clearing",
+  title_line1: "JUMANAH",
+  title_line2: "Typing & Documents",
+  title_line3: "Clearing",
+  subtitle: "A premium UAE partner for visa processing, Emirates ID, trade licensing, PRO services and complete business setup — handled with precision and discretion.",
+  cta_primary: "Explore Services",
+  cta_secondary_phone: "054 549 9790",
+  image_url: null,
+};
+
 function Home() {
+  const { data: heroData } = useSetting<HeroSettings>("hero");
+  const { data: contact } = useSetting<ContactSettings>("contact");
+  const { data: services } = useServices();
+
+  const hero = { ...HERO_DEFAULTS, ...(heroData ?? {}) } as HeroSettings;
+  const bgImage = hero.image_url || skyline;
+  const phone = hero.cta_secondary_phone || contact?.phone1 || "054 549 9790";
+  const telHref = `tel:${phone.replace(/\s+/g, "")}`;
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -32,52 +53,48 @@ function Home() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: `url(${skyline})`,
+            backgroundImage: `url(${bgImage})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
           }}
           aria-hidden
         />
-        {/* Lighter overlay so the Dubai picture stays visible, gradient fades only on the left where text sits */}
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-background/20" />
         <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
         <div className="container mx-auto px-6 pt-20 pb-28 lg:pt-28 lg:pb-32 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="max-w-3xl animate-fade-up">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full red-border text-xs tracking-[0.25em] uppercase text-red-accent mb-8">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-accent" /> UAE All Documents Clearing
-
+                <span className="w-1.5 h-1.5 rounded-full bg-red-accent" /> {hero.badge}
               </div>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6">
-                <span className="gold-text">JUMANAH</span>
+                <span className="gold-text">{hero.title_line1}</span>
                 <br />
-                <span className="text-foreground/95">Typing & Documents</span>
+                <span className="text-foreground/95">{hero.title_line2}</span>
                 <br />
-                <span className="text-foreground/95">Clearing</span>
+                <span className="text-foreground/95">{hero.title_line3}</span>
               </h1>
               <div className="gold-divider w-32 my-8" />
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed mb-10">
-                A premium UAE partner for visa processing, Emirates ID, trade licensing,
-                PRO services and complete business setup — handled with precision and discretion.
+                {hero.subtitle}
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link to="/services" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm">
-                  Explore Services <ArrowRight className="w-4 h-4" />
+                  {hero.cta_primary} <ArrowRight className="w-4 h-4" />
                 </Link>
-                <a href="tel:0545499790" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-gold text-sm">
-                  <Phone className="w-4 h-4" /> 054 549 9790
+                <a href={telHref} className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-gold text-sm">
+                  <Phone className="w-4 h-4" /> {phone}
                 </a>
               </div>
             </div>
 
             <div className="lg:justify-self-end w-full max-w-md animate-fade-up">
-              <ConsultationForm />
+              <ConsultationForm whatsapp={contact?.whatsapp || "971545499790"} />
             </div>
           </div>
         </div>
       </section>
-
 
       {/* STATS */}
       <section className="container mx-auto px-6 -mt-12 relative z-10">
@@ -94,7 +111,6 @@ function Home() {
               <div className="text-xs tracking-widest uppercase text-muted-foreground mt-1">{s.l}</div>
             </div>
           ))}
-
         </div>
       </section>
 
@@ -116,12 +132,11 @@ function Home() {
               A complete suite for <span className="gold-text">UAE documentation</span>
             </h2>
             <div className="red-divider w-24 mx-auto" />
-
           </div>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((s, i) => (
-            <ServiceCard key={s.title} {...s} index={i} />
+          {(services ?? []).map((s, i) => (
+            <ServiceCard key={s.id} iconName={s.icon} title={s.title} desc={s.description} slug={s.slug} index={i} />
           ))}
         </div>
       </section>
@@ -138,14 +153,13 @@ function Home() {
               Speak with our team today and let us handle every detail with the care it deserves.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <a href="tel:0545499790" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm">
-                <Phone className="w-4 h-4" /> Call 054 549 9790
+              <a href={telHref} className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm">
+                <Phone className="w-4 h-4" /> Call {phone}
               </a>
               <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-red text-sm">
                 Get in Touch <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-
           </div>
         </div>
       </section>
@@ -162,7 +176,7 @@ const consultationSchema = z.object({
   message: z.string().trim().min(1, "Message is required").max(1000),
 });
 
-function ConsultationForm() {
+function ConsultationForm({ whatsapp }: { whatsapp: string }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
 
@@ -170,7 +184,7 @@ function ConsultationForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = consultationSchema.safeParse(form);
     if (!result.success) {
@@ -178,6 +192,22 @@ function ConsultationForm() {
       return;
     }
     setSubmitting(true);
+
+    // Save to admin inbox
+    const { error } = await supabase.from("inquiries").insert({
+      name: result.data.name,
+      email: result.data.email,
+      phone: result.data.phone || null,
+      service: "Consultation (home)",
+      message: result.data.message,
+    });
+    if (error) {
+      toast.error(error.message);
+      setSubmitting(false);
+      return;
+    }
+
+    // Also forward via WhatsApp
     const lines = [
       `Name: ${result.data.name}`,
       `Email: ${result.data.email}`,
@@ -185,9 +215,11 @@ function ConsultationForm() {
       "",
       result.data.message,
     ].filter(Boolean).join("\n");
-    const url = `https://wa.me/971545499790?text=${encodeURIComponent(lines)}`;
+    const waNumber = whatsapp.replace(/\D/g, "") || "971545499790";
+    const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(lines)}`;
     window.open(url, "_blank", "noopener,noreferrer");
-    toast.success("Opening WhatsApp to send your message");
+
+    toast.success("Message sent — opening WhatsApp");
     setForm({ name: "", email: "", phone: "", message: "" });
     setSubmitting(false);
   };
@@ -236,7 +268,7 @@ function ConsultationForm() {
           type="submit" disabled={submitting}
           className="w-full inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm"
         >
-          <Send className="w-4 h-4" /> Send Message
+          <Send className="w-4 h-4" /> {submitting ? "Sending..." : "Send Message"}
         </button>
       </form>
     </div>
