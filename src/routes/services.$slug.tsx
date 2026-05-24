@@ -3,7 +3,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { services } from "@/lib/services";
 import { ArrowLeft, Check, Phone, ArrowRight } from "lucide-react";
-import detailImg from "@/assets/dubai-service-detail.jpg";
+import detailImg from "@/assets/dubai-highrise.jpg";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
