@@ -45,8 +45,9 @@ function Home() {
         <div className="container mx-auto px-6 pt-20 pb-28 lg:pt-28 lg:pb-32 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="max-w-3xl animate-fade-up">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full gold-border text-xs tracking-[0.25em] uppercase text-gold mb-8">
-                <span className="w-1.5 h-1.5 rounded-full bg-gold" /> UAE All Documents Clearing
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full red-border text-xs tracking-[0.25em] uppercase text-red-accent mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-accent" /> UAE All Documents Clearing
+
               </div>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6">
                 <span className="gold-text">JUMANAH</span>
@@ -82,17 +83,18 @@ function Home() {
       <section className="container mx-auto px-6 -mt-12 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 luxury-card rounded-2xl p-8">
           {[
-            { icon: Award, n: "10+", l: "Years Expertise" },
-            { icon: Users, n: "5,000+", l: "Clients Served" },
-            { icon: ShieldCheck, n: "100%", l: "Trusted Process" },
-            { icon: Clock, n: "24/7", l: "Support" },
+            { icon: Award, n: "10+", l: "Years Expertise", red: false },
+            { icon: Users, n: "5,000+", l: "Clients Served", red: true },
+            { icon: ShieldCheck, n: "100%", l: "Trusted Process", red: false },
+            { icon: Clock, n: "24/7", l: "Support", red: true },
           ].map((s) => (
             <div key={s.l} className="text-center">
-              <s.icon className="w-7 h-7 text-gold mx-auto mb-3" strokeWidth={1.5} />
-              <div className="font-display text-3xl font-bold gold-text">{s.n}</div>
+              <s.icon className={`w-7 h-7 mx-auto mb-3 ${s.red ? "text-red-accent" : "text-gold"}`} strokeWidth={1.5} />
+              <div className={`font-display text-3xl font-bold ${s.red ? "red-text" : "gold-text"}`}>{s.n}</div>
               <div className="text-xs tracking-widest uppercase text-muted-foreground mt-1">{s.l}</div>
             </div>
           ))}
+
         </div>
       </section>
 
@@ -109,11 +111,12 @@ function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent" />
           <div className="absolute inset-0 flex flex-col items-center justify-end text-center pb-8 px-6">
-            <div className="text-xs tracking-[0.3em] uppercase text-gold mb-3">Services Include</div>
+            <div className="text-xs tracking-[0.3em] uppercase text-red-accent mb-3">Services Include</div>
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
               A complete suite for <span className="gold-text">UAE documentation</span>
             </h2>
-            <div className="gold-divider w-24 mx-auto" />
+            <div className="red-divider w-24 mx-auto" />
+
           </div>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -129,7 +132,7 @@ function Home() {
           <div className="absolute inset-0 opacity-40" style={{ background: "var(--gradient-radial-gold)" }} />
           <div className="relative">
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
-              Ready to clear your documents <span className="gold-text">effortlessly?</span>
+              Ready to clear your documents <span className="red-text">effortlessly?</span>
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto mb-8">
               Speak with our team today and let us handle every detail with the care it deserves.
@@ -138,10 +141,11 @@ function Home() {
               <a href="tel:0545499790" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm">
                 <Phone className="w-4 h-4" /> Call 054 549 9790
               </a>
-              <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-gold text-sm">
+              <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-red text-sm">
                 Get in Touch <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
+
           </div>
         </div>
       </section>
@@ -190,8 +194,9 @@ function ConsultationForm() {
 
   return (
     <div className="luxury-card rounded-2xl p-8 backdrop-blur-sm">
-      <div className="text-xs tracking-[0.3em] uppercase text-gold mb-2">Get a Free Consultation</div>
+      <div className="text-xs tracking-[0.3em] uppercase text-red-accent mb-2">Get a Free Consultation</div>
       <h3 className="font-display text-2xl md:text-3xl font-bold mb-6">Start the <span className="gold-text">Conversation</span></h3>
+
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="grid sm:grid-cols-2 gap-4">
           <div>

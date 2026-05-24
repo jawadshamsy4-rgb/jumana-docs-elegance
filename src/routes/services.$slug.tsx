@@ -101,7 +101,7 @@ function ServiceDetail() {
           </p>
         </div>
         <div className="luxury-card rounded-2xl p-8">
-          <div className="text-xs tracking-[0.3em] uppercase text-gold mb-4">What’s included</div>
+          <div className="text-xs tracking-[0.3em] uppercase text-red-accent mb-4">What’s included</div>
           <ul className="space-y-3">
             {service.highlights.map((h) => (
               <li key={h} className="flex items-start gap-3 text-sm">
