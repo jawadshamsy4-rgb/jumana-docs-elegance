@@ -3,7 +3,30 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { services } from "@/lib/services";
 import { ArrowLeft, Check, Phone, ArrowRight } from "lucide-react";
-import detailImg from "@/assets/dubai-highrise.jpg";
+import imgVisa from "@/assets/svc-visa-processing.jpg";
+import imgMoi from "@/assets/svc-moi.jpg";
+import imgEid from "@/assets/svc-emirates-id.jpg";
+import imgMedical from "@/assets/svc-medical.jpg";
+import imgTrade from "@/assets/svc-trade-license.jpg";
+import imgBusiness from "@/assets/svc-business-setup.jpg";
+import imgPro from "@/assets/svc-pro.jpg";
+import imgMohre from "@/assets/svc-mohre.jpg";
+import imgIcp from "@/assets/svc-icp.jpg";
+import imgTyping from "@/assets/svc-typing.jpg";
+import imgFallback from "@/assets/dubai-highrise.jpg";
+
+const serviceImages: Record<string, string> = {
+  "visa-processing": imgVisa,
+  "moi-services": imgMoi,
+  "emirates-id": imgEid,
+  "medical-insurance": imgMedical,
+  "trade-license": imgTrade,
+  "business-setup": imgBusiness,
+  "pro-services": imgPro,
+  "mohre": imgMohre,
+  "icp-gdrfa": imgIcp,
+  "typing-attestation": imgTyping,
+};
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
@@ -63,8 +86,8 @@ function ServiceDetail() {
       {/* Full-bleed Dubai high-rise banner — fully visible */}
       <section className="relative w-full">
         <img
-          src={detailImg}
-          alt="Dubai high-rise skyline featuring Burj Khalifa"
+          src={serviceImages[service.slug] ?? imgFallback}
+          alt={`${service.title} in the UAE`}
           className="w-full h-[42vh] md:h-[58vh] object-cover"
           width={1920}
           height={1080}
