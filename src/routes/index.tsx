@@ -83,17 +83,18 @@ function Home() {
       <section className="container mx-auto px-6 -mt-12 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 luxury-card rounded-2xl p-8">
           {[
-            { icon: Award, n: "10+", l: "Years Expertise" },
-            { icon: Users, n: "5,000+", l: "Clients Served" },
-            { icon: ShieldCheck, n: "100%", l: "Trusted Process" },
-            { icon: Clock, n: "24/7", l: "Support" },
+            { icon: Award, n: "10+", l: "Years Expertise", red: false },
+            { icon: Users, n: "5,000+", l: "Clients Served", red: true },
+            { icon: ShieldCheck, n: "100%", l: "Trusted Process", red: false },
+            { icon: Clock, n: "24/7", l: "Support", red: true },
           ].map((s) => (
             <div key={s.l} className="text-center">
-              <s.icon className="w-7 h-7 text-gold mx-auto mb-3" strokeWidth={1.5} />
-              <div className="font-display text-3xl font-bold gold-text">{s.n}</div>
+              <s.icon className={`w-7 h-7 mx-auto mb-3 ${s.red ? "text-red-accent" : "text-gold"}`} strokeWidth={1.5} />
+              <div className={`font-display text-3xl font-bold ${s.red ? "red-text" : "gold-text"}`}>{s.n}</div>
               <div className="text-xs tracking-widest uppercase text-muted-foreground mt-1">{s.l}</div>
             </div>
           ))}
+
         </div>
       </section>
 
