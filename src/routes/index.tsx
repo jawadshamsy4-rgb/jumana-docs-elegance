@@ -5,6 +5,7 @@ import { ServiceCard } from "@/components/site/ServiceCard";
 import { services } from "@/lib/services";
 import { ArrowRight, Phone, Award, Clock, ShieldCheck, Users, Send } from "lucide-react";
 import skyline from "@/assets/hero-skyline.jpg";
+import dubaiServices from "@/assets/dubai-services.jpg";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
