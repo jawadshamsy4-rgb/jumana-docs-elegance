@@ -36,11 +36,11 @@ function ServicesList() {
   };
 
   const createNew = async () => {
-    const max = (services?.length ?? 0) * 10 + 10;
+    const next = (services?.length ?? 0) + 1;
     const slug = `new-service-${Date.now()}`;
     const { data, error } = await supabase.from("services").insert({
       slug, title: "New Service", description: "", long_description: "",
-      highlights: [], icon: "FileText", sort_order: max, is_published: false,
+      highlights: [], icon: "FileText", sort_order: next, is_published: false,
     }).select().single();
     if (error) toast.error(error.message);
     else { qc.invalidateQueries({ queryKey: ["admin-services"] }); window.location.href = `/admin/services/${data.id}`; }
