@@ -132,7 +132,7 @@ function Home() {
           <div className="absolute inset-0 opacity-40" style={{ background: "var(--gradient-radial-gold)" }} />
           <div className="relative">
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
-              Ready to clear your documents <span className="gold-text">effortlessly?</span>
+              Ready to clear your documents <span className="red-text">effortlessly?</span>
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto mb-8">
               Speak with our team today and let us handle every detail with the care it deserves.
@@ -141,10 +141,11 @@ function Home() {
               <a href="tel:0545499790" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-gold text-sm">
                 <Phone className="w-4 h-4" /> Call 054 549 9790
               </a>
-              <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-gold text-sm">
+              <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full btn-outline-red text-sm">
                 Get in Touch <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
+
           </div>
         </div>
       </section>
