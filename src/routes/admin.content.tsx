@@ -56,6 +56,7 @@ const aboutFields: Field[] = [
   { key: "founder_title", label: "Founder title", type: "text" },
   { key: "values", label: "Values (one per line)", type: "list" },
   { key: "image_url", label: "About image", type: "image" },
+  { key: "founder_image_url", label: "Founder photo (round, shown on leadership card)", type: "image" },
 ];
 const contactFields: Field[] = [
   { key: "heading", label: "Page heading", type: "text" },
