@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin } from "lucide-react";
 export function Footer() {
   return (
     <footer className="mt-32 border-t border-border bg-secondary">
-      <div className="gold-divider" />
+      <div className="red-divider" />
       <div className="container mx-auto px-6 py-16 grid md:grid-cols-4 gap-10">
         <div>
           <div className="font-display text-2xl gold-text font-bold">JUMANAH</div>
