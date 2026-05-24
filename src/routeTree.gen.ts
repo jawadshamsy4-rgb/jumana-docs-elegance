@@ -11,9 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as AdminInquiriesRouteImport } from './routes/admin.inquiries'
+import { Route as AdminContentRouteImport } from './routes/admin.content'
+import { Route as AdminBrandingRouteImport } from './routes/admin.branding'
+import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
+import { Route as AdminServicesIdRouteImport } from './routes/admin.services.$id'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -23,6 +31,16 @@ const ServicesRoute = ServicesRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -35,45 +53,139 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
+const AdminInquiriesRoute = AdminInquiriesRouteImport.update({
+  id: '/inquiries',
+  path: '/inquiries',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContentRoute = AdminContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBrandingRoute = AdminBrandingRouteImport.update({
+  id: '/branding',
+  path: '/branding',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServicesIdRoute = AdminServicesIdRouteImport.update({
+  id: '/services/$id',
+  path: '/services/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRouteWithChildren
+  '/admin/branding': typeof AdminBrandingRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/services/$id': typeof AdminServicesIdRoute
+  '/admin/services/': typeof AdminServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRouteWithChildren
+  '/admin/branding': typeof AdminBrandingRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/services/$id': typeof AdminServicesIdRoute
+  '/admin/services': typeof AdminServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRouteWithChildren
+  '/admin/branding': typeof AdminBrandingRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/services/$id': typeof AdminServicesIdRoute
+  '/admin/services/': typeof AdminServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact' | '/services' | '/services/$slug'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/auth'
+    | '/contact'
+    | '/services'
+    | '/admin/branding'
+    | '/admin/content'
+    | '/admin/inquiries'
+    | '/services/$slug'
+    | '/admin/'
+    | '/admin/services/$id'
+    | '/admin/services/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/services' | '/services/$slug'
-  id: '__root__' | '/' | '/about' | '/contact' | '/services' | '/services/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/contact'
+    | '/services'
+    | '/admin/branding'
+    | '/admin/content'
+    | '/admin/inquiries'
+    | '/services/$slug'
+    | '/admin'
+    | '/admin/services/$id'
+    | '/admin/services'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/auth'
+    | '/contact'
+    | '/services'
+    | '/admin/branding'
+    | '/admin/content'
+    | '/admin/inquiries'
+    | '/services/$slug'
+    | '/admin/'
+    | '/admin/services/$id'
+    | '/admin/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   ServicesRoute: typeof ServicesRouteWithChildren
 }
@@ -94,6 +206,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -108,6 +234,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/services/$slug': {
       id: '/services/$slug'
       path: '/$slug'
@@ -115,8 +248,63 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/admin/inquiries': {
+      id: '/admin/inquiries'
+      path: '/inquiries'
+      fullPath: '/admin/inquiries'
+      preLoaderRoute: typeof AdminInquiriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/content': {
+      id: '/admin/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AdminContentRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/branding': {
+      id: '/admin/branding'
+      path: '/branding'
+      fullPath: '/admin/branding'
+      preLoaderRoute: typeof AdminBrandingRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/services/': {
+      id: '/admin/services/'
+      path: '/services'
+      fullPath: '/admin/services/'
+      preLoaderRoute: typeof AdminServicesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/services/$id': {
+      id: '/admin/services/$id'
+      path: '/services/$id'
+      fullPath: '/admin/services/$id'
+      preLoaderRoute: typeof AdminServicesIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminBrandingRoute: typeof AdminBrandingRoute
+  AdminContentRoute: typeof AdminContentRoute
+  AdminInquiriesRoute: typeof AdminInquiriesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminServicesIdRoute: typeof AdminServicesIdRoute
+  AdminServicesIndexRoute: typeof AdminServicesIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminBrandingRoute: AdminBrandingRoute,
+  AdminContentRoute: AdminContentRoute,
+  AdminInquiriesRoute: AdminInquiriesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminServicesIdRoute: AdminServicesIdRoute,
+  AdminServicesIndexRoute: AdminServicesIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface ServicesRouteChildren {
   ServicesSlugRoute: typeof ServicesSlugRoute
@@ -133,6 +321,8 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   ServicesRoute: ServicesRouteWithChildren,
 }

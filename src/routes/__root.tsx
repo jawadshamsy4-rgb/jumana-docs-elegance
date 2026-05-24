@@ -3,6 +3,9 @@ import {
   Outlet, Link, createRootRouteWithContext, useRouter, HeadContent, Scripts,
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
+import { AuthProvider } from "@/hooks/use-auth";
+import { BrandStyle } from "@/components/site/BrandStyle";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -76,7 +79,11 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <AuthProvider>
+        <BrandStyle />
+        <Outlet />
+        <Toaster />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
