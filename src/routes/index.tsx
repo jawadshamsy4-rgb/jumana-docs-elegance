@@ -111,11 +111,12 @@ function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent" />
           <div className="absolute inset-0 flex flex-col items-center justify-end text-center pb-8 px-6">
-            <div className="text-xs tracking-[0.3em] uppercase text-gold mb-3">Services Include</div>
+            <div className="text-xs tracking-[0.3em] uppercase text-red-accent mb-3">Services Include</div>
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
               A complete suite for <span className="gold-text">UAE documentation</span>
             </h2>
-            <div className="gold-divider w-24 mx-auto" />
+            <div className="red-divider w-24 mx-auto" />
+
           </div>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
