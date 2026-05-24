@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  LayoutDashboard, Briefcase, FileText, Palette, Inbox, LogOut, ExternalLink,
+  LayoutDashboard, Briefcase, FileText, Palette, Inbox, LogOut, ExternalLink, UserCog,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -18,6 +18,7 @@ const nav: { to: string; label: string; icon: any; exact?: boolean }[] = [
   { to: "/admin/content", label: "Content", icon: FileText },
   { to: "/admin/branding", label: "Branding", icon: Palette },
   { to: "/admin/inquiries", label: "Inquiries", icon: Inbox },
+  { to: "/admin/account", label: "Account", icon: UserCog },
 ];
 
 function AdminLayout() {
