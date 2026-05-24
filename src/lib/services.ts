@@ -1,6 +1,6 @@
 import {
   FileCheck, Building2, IdCard, HeartPulse, Briefcase, Building,
-  ShieldCheck, Users, FileText,
+  ShieldCheck, Users, FileText, Plane,
 } from "lucide-react";
 
 export const services = [
@@ -97,16 +97,29 @@ export const services = [
     ],
   },
   {
-    slug: "labour-immigration",
+    slug: "mohre",
     icon: Users,
-    title: "Labour & Immigration",
-    desc: "Labour contracts, work permits, visa quota processing, immigration applications, and employee-related services.",
-    long: "From labor contracts and work permits to visa quotas and full employee onboarding paperwork, we manage all labor and immigration formalities with accuracy and speed.",
+    title: "MOHRE",
+    desc: "Complete labour services including employment contracts, work permits, labour card processing, and Ministry of Human Resources compliance.",
+    long: "We handle all MOHRE-related formalities — from employment contract drafting and work permit applications to labour card renewals and ministry compliance. Our team ensures your workforce documentation meets every UAE labour regulation.",
     highlights: [
-      "Labor contracts & work permits",
-      "Visa quota processing",
-      "Immigration applications",
-      "Employee onboarding documents",
+      "Employment contract processing",
+      "Work permit applications",
+      "Labour card renewals",
+      "MOHRE compliance & updates",
+    ],
+  },
+  {
+    slug: "icp-gdrfa",
+    icon: Plane,
+    title: "ICP / GDRFA",
+    desc: "Immigration and residency services including entry permits, residency visas, Emirates ID linking, and GDRFA portal transactions.",
+    long: "Full immigration support through the ICP (Federal Authority for Identity and Citizenship) and GDRFA (General Directorate of Residency and Foreigners Affairs) systems — entry permits, residency stamping, status updates and portal management.",
+    highlights: [
+      "Entry permit applications",
+      "Residency visa stamping",
+      "ICP portal transactions",
+      "GDRFA status updates",
     ],
   },
   {
