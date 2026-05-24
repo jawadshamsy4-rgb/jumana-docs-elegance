@@ -33,7 +33,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h4 className="text-gold text-sm tracking-widest uppercase mb-4">Contact</h4>
+          <h4 className="text-red-accent text-sm tracking-widest uppercase mb-4">Contact</h4>
           <ul className="space-y-3 text-sm text-muted-foreground">
             <li className="flex items-center gap-2"><Phone className="w-4 h-4 text-gold shrink-0" /><span>054 549 9790</span></li>
             <li className="flex items-center gap-2"><Phone className="w-4 h-4 text-gold shrink-0" /><span>054 547 6784</span></li>
