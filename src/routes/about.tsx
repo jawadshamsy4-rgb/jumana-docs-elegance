@@ -69,9 +69,21 @@ function AboutPage() {
         </div>
 
         <div className="luxury-card rounded-2xl p-10">
-          <div className="text-xs tracking-[0.3em] uppercase text-gold mb-3">Leadership</div>
-          <h3 className="font-display text-3xl font-bold mb-1">{a.founder_name}</h3>
-          <p className="text-sm text-muted-foreground tracking-widest uppercase mb-8">{a.founder_title}</p>
+          <div className="flex items-start justify-between gap-4 mb-8">
+            <div>
+              <div className="text-xs tracking-[0.3em] uppercase text-gold mb-3">Leadership</div>
+              <h3 className="font-display text-3xl font-bold mb-1">{a.founder_name}</h3>
+              <p className="text-sm text-muted-foreground tracking-widest uppercase">{a.founder_title}</p>
+            </div>
+            {(a as any).founder_image_url && (
+              <img
+                src={(a as any).founder_image_url}
+                alt={a.founder_name}
+                loading="lazy"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-gold shrink-0"
+              />
+            )}
+          </div>
           <ul className="space-y-3">
             {(a.values ?? []).map((v) => (
               <li key={v} className="flex items-start gap-3 text-sm">
