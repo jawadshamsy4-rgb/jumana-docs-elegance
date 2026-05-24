@@ -5,6 +5,7 @@ import { Footer } from "@/components/site/Footer";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import contactImg from "@/assets/dubai-contact.jpg";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
