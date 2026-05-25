@@ -22,6 +22,7 @@ import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as AdminBrandingRouteImport } from './routes/admin.branding'
 import { Route as AdminAccountRouteImport } from './routes/admin.account'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
+import { Route as ApiAdminUploadServiceImageRouteImport } from './routes/api/admin/upload-service-image'
 import { Route as AdminServicesIdRouteImport } from './routes/admin.services.$id'
 
 const ServicesRoute = ServicesRouteImport.update({
@@ -89,6 +90,12 @@ const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
   path: '/services/',
   getParentRoute: () => AdminRoute,
 } as any)
+const ApiAdminUploadServiceImageRoute =
+  ApiAdminUploadServiceImageRouteImport.update({
+    id: '/api/admin/upload-service-image',
+    path: '/api/admin/upload-service-image',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminServicesIdRoute = AdminServicesIdRouteImport.update({
   id: '/services/$id',
   path: '/services/$id',
@@ -109,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/services/$slug': typeof ServicesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/services/$id': typeof AdminServicesIdRoute
+  '/api/admin/upload-service-image': typeof ApiAdminUploadServiceImageRoute
   '/admin/services/': typeof AdminServicesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -124,6 +132,7 @@ export interface FileRoutesByTo {
   '/services/$slug': typeof ServicesSlugRoute
   '/admin': typeof AdminIndexRoute
   '/admin/services/$id': typeof AdminServicesIdRoute
+  '/api/admin/upload-service-image': typeof ApiAdminUploadServiceImageRoute
   '/admin/services': typeof AdminServicesIndexRoute
 }
 export interface FileRoutesById {
@@ -141,6 +150,7 @@ export interface FileRoutesById {
   '/services/$slug': typeof ServicesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/services/$id': typeof AdminServicesIdRoute
+  '/api/admin/upload-service-image': typeof ApiAdminUploadServiceImageRoute
   '/admin/services/': typeof AdminServicesIndexRoute
 }
 export interface FileRouteTypes {
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/admin/'
     | '/admin/services/$id'
+    | '/api/admin/upload-service-image'
     | '/admin/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/admin'
     | '/admin/services/$id'
+    | '/api/admin/upload-service-image'
     | '/admin/services'
   id:
     | '__root__'
@@ -190,6 +202,7 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/admin/'
     | '/admin/services/$id'
+    | '/api/admin/upload-service-image'
     | '/admin/services/'
   fileRoutesById: FileRoutesById
 }
@@ -200,6 +213,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  ApiAdminUploadServiceImageRoute: typeof ApiAdminUploadServiceImageRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -295,6 +309,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/api/admin/upload-service-image': {
+      id: '/api/admin/upload-service-image'
+      path: '/api/admin/upload-service-image'
+      fullPath: '/api/admin/upload-service-image'
+      preLoaderRoute: typeof ApiAdminUploadServiceImageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/services/$id': {
       id: '/admin/services/$id'
       path: '/services/$id'
@@ -346,7 +367,18 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  ApiAdminUploadServiceImageRoute: ApiAdminUploadServiceImageRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

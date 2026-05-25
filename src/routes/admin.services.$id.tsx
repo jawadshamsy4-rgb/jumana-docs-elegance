@@ -46,14 +46,23 @@ function EditService() {
 
   const onUpload = async (file: File) => {
     setUploading(true);
-    const path = `services/${form.slug || form.id}-${Date.now()}-${file.name.replace(/[^\w.-]/g, "_")}`;
-    const { error: upErr } = await supabase.storage.from("site-assets").upload(path, file, { upsert: true });
-    if (upErr) { toast.error(upErr.message); setUploading(false); return; }
-    const { data } = supabase.storage.from("site-assets").getPublicUrl(path);
-    const publicUrl = data.publicUrl;
-    const { error: dbErr } = await supabase.from("services").update({ image_url: publicUrl }).eq("id", form.id);
+    const { data: sessionData } = await supabase.auth.getSession();
+    const uploadForm = new FormData();
+    uploadForm.append("file", file);
+    uploadForm.append("serviceId", form.id);
+    uploadForm.append("slug", form.slug);
+
+    const res = await fetch("/api/admin/upload-service-image", {
+      method: "POST",
+      headers: sessionData.session?.access_token
+        ? { Authorization: `Bearer ${sessionData.session.access_token}` }
+        : undefined,
+      body: uploadForm,
+    });
+    const result = await res.json() as { publicUrl?: string; error?: string };
     setUploading(false);
-    if (dbErr) { toast.error(dbErr.message); return; }
+    if (!res.ok || !result.publicUrl) { toast.error(result.error ?? "Upload failed"); return; }
+    const publicUrl = result.publicUrl;
     update({ image_url: publicUrl });
     qc.invalidateQueries({ queryKey: ["admin-services"] });
     qc.invalidateQueries({ queryKey: ["admin-service", id] });
