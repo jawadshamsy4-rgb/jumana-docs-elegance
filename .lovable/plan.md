@@ -1,15 +1,20 @@
-## Why it's 10
+## Problem
 
-New services use `sort_order = (count * 10) + 10`, so the first one gets 10, second 20, etc. The "step of 10" pattern was meant to leave gaps for easy reordering, but it's confusing.
+In the admin Edit Service page, uploading a "Detail page image" only updates the in-memory form. The new URL isn't written to the `services` table until the user clicks **Save changes**, so the public `/services/$slug` page keeps showing the old/fallback image. Users reasonably expect the upload itself to take effect.
 
-## Change
+## Fix
 
-Switch to simple 1-based sequential numbering.
+Update `src/routes/admin.services.$id.tsx` → `onUpload()` so that after a successful upload it also writes `image_url` directly to the database for the current service, then invalidates the relevant React Query caches.
 
-**`src/routes/admin.services.index.tsx`** (line 39)
-- Replace `const max = (services?.length ?? 0) * 10 + 10;` with `const next = (services?.length ?? 0) + 1;`
-- Pass `sort_order: next` in the insert.
+Steps inside `onUpload`:
+1. Upload file to `site-assets` bucket (unchanged).
+2. Get the public URL (unchanged).
+3. `await supabase.from("services").update({ image_url: publicUrl }).eq("id", form.id)`.
+4. On success: `update({ image_url: publicUrl })` to sync the form, invalidate `["admin-services"]`, `["admin-service", id]`, `["services"]`, and `["service", form.slug]`, then toast "Image updated".
+5. On error: toast the error and don't change form state.
 
-**Renumber existing rows** via a one-time data update so the current services become 1, 2, 3… in their current display order (ordered by current `sort_order`).
+No other files change. The detail page already reads `service.image_url` correctly, so once it's persisted the new image appears on the next fetch.
 
-No schema change. Sorting logic (`.order("sort_order")`) stays the same — it still shows lowest first.
+## Note for the user
+
+The image will also still be saved as part of "Save changes" if you only paste a URL into the text field — only the file-upload path becomes instant.
