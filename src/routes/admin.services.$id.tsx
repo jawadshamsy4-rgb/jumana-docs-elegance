@@ -46,29 +46,26 @@ function EditService() {
 
   const onUpload = async (file: File) => {
     setUploading(true);
-    const { data: sessionData } = await supabase.auth.getSession();
-    const uploadForm = new FormData();
-    uploadForm.append("file", file);
-    uploadForm.append("serviceId", form.id);
-    uploadForm.append("slug", form.slug);
-
-    const res = await fetch("/api/admin/upload-service-image", {
-      method: "POST",
-      headers: sessionData.session?.access_token
-        ? { Authorization: `Bearer ${sessionData.session.access_token}` }
-        : undefined,
-      body: uploadForm,
-    });
-    const result = await res.json() as { publicUrl?: string; error?: string };
-    setUploading(false);
-    if (!res.ok || !result.publicUrl) { toast.error(result.error ?? "Upload failed"); return; }
-    const publicUrl = result.publicUrl;
-    update({ image_url: publicUrl });
-    qc.invalidateQueries({ queryKey: ["admin-services"] });
-    qc.invalidateQueries({ queryKey: ["admin-service", id] });
-    qc.invalidateQueries({ queryKey: ["services"] });
-    qc.invalidateQueries({ queryKey: ["service", form.slug] });
-    toast.success("Image updated");
+    try {
+      const cleanName = file.name.replace(/[^\w.-]/g, "_").slice(0, 120) || "image";
+      const path = `services/${form.slug || form.id}-${Date.now()}-${cleanName}`;
+      const { error: upErr } = await supabase.storage
+        .from("site-assets")
+        .upload(path, file, { cacheControl: "3600", contentType: file.type, upsert: true });
+      if (upErr) { toast.error(upErr.message); return; }
+      const { data: pub } = supabase.storage.from("site-assets").getPublicUrl(path);
+      const publicUrl = pub.publicUrl;
+      const { error: updErr } = await supabase.from("services").update({ image_url: publicUrl }).eq("id", form.id);
+      if (updErr) { toast.error(updErr.message); return; }
+      update({ image_url: publicUrl });
+      qc.invalidateQueries({ queryKey: ["admin-services"] });
+      qc.invalidateQueries({ queryKey: ["admin-service", id] });
+      qc.invalidateQueries({ queryKey: ["services"] });
+      qc.invalidateQueries({ queryKey: ["service", form.slug] });
+      toast.success("Image updated");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const save = async () => {
