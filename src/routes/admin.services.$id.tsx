@@ -47,12 +47,19 @@ function EditService() {
   const onUpload = async (file: File) => {
     setUploading(true);
     const path = `services/${form.slug || form.id}-${Date.now()}-${file.name.replace(/[^\w.-]/g, "_")}`;
-    const { error } = await supabase.storage.from("site-assets").upload(path, file, { upsert: true });
-    if (error) { toast.error(error.message); setUploading(false); return; }
+    const { error: upErr } = await supabase.storage.from("site-assets").upload(path, file, { upsert: true });
+    if (upErr) { toast.error(upErr.message); setUploading(false); return; }
     const { data } = supabase.storage.from("site-assets").getPublicUrl(path);
-    update({ image_url: data.publicUrl });
+    const publicUrl = data.publicUrl;
+    const { error: dbErr } = await supabase.from("services").update({ image_url: publicUrl }).eq("id", form.id);
     setUploading(false);
-    toast.success("Image uploaded");
+    if (dbErr) { toast.error(dbErr.message); return; }
+    update({ image_url: publicUrl });
+    qc.invalidateQueries({ queryKey: ["admin-services"] });
+    qc.invalidateQueries({ queryKey: ["admin-service", id] });
+    qc.invalidateQueries({ queryKey: ["services"] });
+    qc.invalidateQueries({ queryKey: ["service", form.slug] });
+    toast.success("Image updated");
   };
 
   const save = async () => {
