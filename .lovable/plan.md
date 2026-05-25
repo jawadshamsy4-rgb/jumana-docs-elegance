@@ -1,20 +1,36 @@
 ## Problem
 
-In the admin Edit Service page, uploading a "Detail page image" only updates the in-memory form. The new URL isn't written to the `services` table until the user clicks **Save changes**, so the public `/services/$slug` page keeps showing the old/fallback image. Users reasonably expect the upload itself to take effect.
+On the Edit Service page (`/admin/services/$id`), clicking **Upload** for the detail page image shows: *"new row violates row-level security policy"*.
+
+The upload targets the `site-assets` storage bucket. The existing INSERT policy on `storage.objects` is:
+
+```
+((bucket_id = 'site-assets') AND is_admin())
+```
+
+`is_admin()` is a `SECURITY DEFINER` function in the `public` schema. When called from the `storage.objects` RLS context, the `authenticated` role needs explicit `EXECUTE` permission on it — otherwise the call silently fails the policy check and the row is rejected. The user IS an admin in `user_roles` (verified: `jumanahdoc@gmail.com` → `admin`), so this is purely a permissions/policy plumbing issue, not a data issue.
 
 ## Fix
 
-Update `src/routes/admin.services.$id.tsx` → `onUpload()` so that after a successful upload it also writes `image_url` directly to the database for the current service, then invalidates the relevant React Query caches.
+Rewrite the three `site-assets` storage policies to check `user_roles` directly (no dependency on `is_admin()` resolution), and explicitly grant execute on the helper functions to the `authenticated` role as a belt-and-braces measure.
 
-Steps inside `onUpload`:
-1. Upload file to `site-assets` bucket (unchanged).
-2. Get the public URL (unchanged).
-3. `await supabase.from("services").update({ image_url: publicUrl }).eq("id", form.id)`.
-4. On success: `update({ image_url: publicUrl })` to sync the form, invalidate `["admin-services"]`, `["admin-service", id]`, `["services"]`, and `["service", form.slug]`, then toast "Image updated".
-5. On error: toast the error and don't change form state.
+### Migration
 
-No other files change. The detail page already reads `service.image_url` correctly, so once it's persisted the new image appears on the next fetch.
+1. Drop the existing three `site-assets` policies on `storage.objects`.
+2. Recreate them with an inline check against `public.user_roles`:
+   ```sql
+   EXISTS (
+     SELECT 1 FROM public.user_roles
+     WHERE user_id = auth.uid() AND role = 'admin'
+   )
+   ```
+   for SELECT/INSERT/UPDATE/DELETE on `bucket_id = 'site-assets'` (INSERT/UPDATE use `WITH CHECK`, DELETE/UPDATE use `USING`).
+3. `GRANT EXECUTE ON FUNCTION public.is_admin(), public.has_role(uuid, app_role) TO authenticated;` so other policies relying on these helpers also keep working.
 
-## Note for the user
+No application code changes are needed — `onUpload()` in `src/routes/admin.services.$id.tsx` is already correct (uploads to `site-assets`, then updates `services.image_url`, then invalidates caches).
 
-The image will also still be saved as part of "Save changes" if you only paste a URL into the text field — only the file-upload path becomes instant.
+## Verification
+
+After the migration:
+- Reload the Edit Service page, click Upload, pick an image.
+- Expect: "Image updated" toast, the preview thumbnail updates, and the public service detail page hero image refreshes.
