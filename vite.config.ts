@@ -12,6 +12,6 @@ const isVercel = process.env.VERCEL === "1";
 
 export default defineConfig(
   isVercel
-    ? { cloudflare: false, plugins: [nitro()] }
-    : {},
+    ? { cloudflare: false, plugins: [nitro()], tanstackStart: { server: { entry: "server" } } }
+    : { tanstackStart: { server: { entry: "server" } } },
 );
