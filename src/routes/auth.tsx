@@ -105,7 +105,7 @@ function AuthPage() {
             ) : adminExists ? (
               <form onSubmit={onSignIn} className="space-y-4">
                 <div><Label>Email</Label><Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-                <div><Label>Password</Label><Input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} /></div>
+                <div><Label>Password</Label><PasswordInput value={password} onChange={setPassword} /></div>
                 <Button type="submit" className="w-full" disabled={busy}>{busy ? "Signing in..." : "Sign in"}</Button>
               </form>
             ) : (
