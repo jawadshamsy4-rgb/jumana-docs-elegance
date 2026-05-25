@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,32 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
+
+function PasswordInput({
+  value, onChange, minLength,
+}: { value: string; onChange: (v: string) => void; minLength?: number }) {
+  const [show, setShow] = useState(false);
+  return (
+    <div className="relative">
+      <Input
+        type={show ? "text" : "password"}
+        required
+        minLength={minLength}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="pr-10"
+      />
+      <button
+        type="button"
+        onClick={() => setShow((s) => !s)}
+        aria-label={show ? "Hide password" : "Show password"}
+        className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+      >
+        {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+      </button>
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: "Admin Sign In | Jumanah" }, { name: "robots", content: "noindex" }] }),
@@ -78,13 +105,13 @@ function AuthPage() {
             ) : adminExists ? (
               <form onSubmit={onSignIn} className="space-y-4">
                 <div><Label>Email</Label><Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-                <div><Label>Password</Label><Input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} /></div>
+                <div><Label>Password</Label><PasswordInput value={password} onChange={setPassword} /></div>
                 <Button type="submit" className="w-full" disabled={busy}>{busy ? "Signing in..." : "Sign in"}</Button>
               </form>
             ) : (
               <form onSubmit={onBootstrap} className="space-y-4">
                 <div><Label>Admin email</Label><Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-                <div><Label>Password (min 6)</Label><Input type="password" minLength={6} required value={password} onChange={(e) => setPassword(e.target.value)} /></div>
+                <div><Label>Password (min 6)</Label><PasswordInput value={password} onChange={setPassword} minLength={6} /></div>
                 <Button type="submit" className="w-full" disabled={busy}>{busy ? "Creating..." : "Create admin account"}</Button>
                 <p className="text-xs text-muted-foreground">After this, sign-up is closed. You can change your password later from the admin panel.</p>
               </form>
