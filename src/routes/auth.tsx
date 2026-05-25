@@ -111,7 +111,7 @@ function AuthPage() {
             ) : (
               <form onSubmit={onBootstrap} className="space-y-4">
                 <div><Label>Admin email</Label><Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-                <div><Label>Password (min 6)</Label><Input type="password" minLength={6} required value={password} onChange={(e) => setPassword(e.target.value)} /></div>
+                <div><Label>Password (min 6)</Label><PasswordInput value={password} onChange={setPassword} minLength={6} /></div>
                 <Button type="submit" className="w-full" disabled={busy}>{busy ? "Creating..." : "Create admin account"}</Button>
                 <p className="text-xs text-muted-foreground">After this, sign-up is closed. You can change your password later from the admin panel.</p>
               </form>
