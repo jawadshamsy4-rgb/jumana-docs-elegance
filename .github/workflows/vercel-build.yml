@@ -1,0 +1,59 @@
+name: Vercel Build Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Verify Vercel build output
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run Vercel build (Nitro preset)
+        env:
+          VERCEL: "1"
+        run: bunx vite build
+
+      - name: Validate Vercel output structure
+        run: |
+          set -e
+          echo "Checking .vercel/output exists..."
+          test -d .vercel/output || { echo "::error::.vercel/output missing"; exit 1; }
+
+          echo "Checking nitro.json (Vercel Build Output API config)..."
+          test -f .vercel/output/nitro.json || { echo "::error::.vercel/output/nitro.json missing"; exit 1; }
+
+          echo "Checking server function bundle..."
+          test -d .vercel/output/functions/__server.func || { echo "::error::server function dir missing"; exit 1; }
+          test -f .vercel/output/functions/__server.func/index.mjs || { echo "::error::server function entry missing"; exit 1; }
+          test -f .vercel/output/functions/__server.func/.vc-config.json || { echo "::error::.vc-config.json missing"; exit 1; }
+
+          echo "Checking static assets..."
+          test -d .vercel/output/static || { echo "::error::static output missing"; exit 1; }
+
+          echo "Vercel build output is valid."
+
+      - name: Smoke-test server bundle (import without crash)
+        run: |
+          node --input-type=module -e "
+            const mod = await import('./.vercel/output/functions/__server.func/index.mjs');
+            if (!mod || (typeof mod.default !== 'function' && typeof mod.default?.fetch !== 'function')) {
+              console.error('Server bundle did not export a usable handler');
+              process.exit(1);
+            }
+            console.log('Server bundle imports cleanly.');
+          "
