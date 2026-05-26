@@ -1,17 +1,20 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-import { nitro } from "nitro/vite";
 
-// On Vercel builds, swap the default Cloudflare target for Nitro, which
+// On Vercel builds, swap the default Cloudflare target for Nitro (which
 // auto-detects the Vercel preset via the `VERCEL=1` env var Vercel sets
-// during builds. Output goes to `.vercel/output`, which Vercel picks up
-// automatically — no `vercel.json` required.
+// during builds). Nitro is loaded dynamically so it is NOT pulled into
+// the Lovable/Cloudflare build graph (which would inject h3 modules that
+// Cloudflare's Worker runtime cannot resolve).
 //
 // Outside Vercel (Lovable preview / published), we keep the default
-// Cloudflare target so the in-app preview keeps working.
+// Cloudflare target so the in-app preview and lovable.app domain work.
 const isVercel = process.env.VERCEL === "1";
 
-export default defineConfig(
-  isVercel
-    ? { cloudflare: false, plugins: [nitro()] }
-    : {},
-);
+const vercelConfig = isVercel
+  ? await import("nitro/vite").then((m) => ({
+      cloudflare: false as const,
+      plugins: [m.nitro()],
+    }))
+  : {};
+
+export default defineConfig(vercelConfig);
