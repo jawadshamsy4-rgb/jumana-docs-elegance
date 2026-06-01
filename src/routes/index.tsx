@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { SocialBar } from "@/components/site/SocialBar";
 import { ServiceCard } from "@/components/site/ServiceCard";
 import { ArrowRight, Phone, Award, Clock, ShieldCheck, Users, Send } from "lucide-react";
 import skyline from "@/assets/hero-skyline.jpg";
@@ -164,6 +165,7 @@ function Home() {
         </div>
       </section>
 
+      <SocialBar />
       <Footer />
     </div>
   );
