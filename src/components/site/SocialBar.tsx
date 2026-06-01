@@ -44,7 +44,7 @@ export function SocialBar() {
                 <a
                   href={href}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener"
                   aria-label={meta.label}
                   className="group inline-flex items-center justify-center w-12 h-12 rounded-full border border-border bg-secondary text-foreground/80 transition-all duration-300 hover:scale-110 hover:border-gold hover:text-gold hover:bg-card"
                 >
