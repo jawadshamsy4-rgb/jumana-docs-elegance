@@ -143,6 +143,9 @@ function Home() {
         </div>
       </section>
 
+      {/* LOCATION MAP */}
+      <LocationMap />
+
       {/* CTA */}
       <section className="container mx-auto px-6 pb-20">
         <div className="relative overflow-hidden rounded-3xl p-12 md:p-20 luxury-card text-center">
@@ -166,8 +169,8 @@ function Home() {
         </div>
       </section>
 
-      <LocationMap />
       <SocialBar />
+
       <Footer />
     </div>
   );
