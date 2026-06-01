@@ -67,3 +67,7 @@ export type BrandingSettings = {
   primary_color: string; accent_color: string;
   font_display: string; font_sans: string;
 };
+export type LocationMapSettings = {
+  title: string; description: string;
+  embed_code: string; embed_src: string; is_enabled: boolean;
+};
