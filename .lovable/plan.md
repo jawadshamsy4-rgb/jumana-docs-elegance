@@ -1,36 +1,73 @@
-## Problem
+# Dynamic Google Maps Location Section
 
-On the Edit Service page (`/admin/services/$id`), clicking **Upload** for the detail page image shows: *"new row violates row-level security policy"*.
+## 1. Database (migration)
 
-The upload targets the `site-assets` storage bucket. The existing INSERT policy on `storage.objects` is:
+Store as a single row in existing `site_settings` table under key `location_map` (matches existing pattern for hero/about/contact/social). No new table needed.
 
+Add `"location_map"` to the public-read whitelist policy on `site_settings` so the homepage can read it without auth:
+
+```sql
+DROP POLICY "Public read public site settings" ON public.site_settings;
+CREATE POLICY "Public read public site settings"
+ON public.site_settings FOR SELECT
+USING ((key = ANY (ARRAY['branding','hero','about','contact','services_section','stats','navigation','footer','seo','social','location_map'])) OR is_admin());
 ```
-((bucket_id = 'site-assets') AND is_admin())
+
+Seed default row:
+```sql
+INSERT INTO site_settings(key, value) VALUES ('location_map', '{
+  "title": "Find Us",
+  "description": "Visit our office in Ras Al Khaimah.",
+  "embed_code": "",
+  "is_enabled": false
+}'::jsonb) ON CONFLICT (key) DO NOTHING;
 ```
 
-`is_admin()` is a `SECURITY DEFINER` function in the `public` schema. When called from the `storage.objects` RLS context, the `authenticated` role needs explicit `EXECUTE` permission on it — otherwise the call silently fails the policy check and the row is rejected. The user IS an admin in `user_roles` (verified: `jumanahdoc@gmail.com` → `admin`), so this is purely a permissions/policy plumbing issue, not a data issue.
+## 2. Admin page — `src/routes/admin.location.tsx`
 
-## Fix
+New route + sidebar entry in `src/routes/admin.tsx` (icon: `MapPin`, label "Location Map", path `/admin/location`).
 
-Rewrite the three `site-assets` storage policies to check `user_roles` directly (no dependency on `is_admin()` resolution), and explicitly grant execute on the helper functions to the `authenticated` role as a belt-and-braces measure.
+Form fields:
+- Section Title (Input, max 120)
+- Section Description (Textarea, max 500)
+- Google Maps Embed Code (Textarea, max 4000) — paste full `<iframe …></iframe>`
+- Enable/Disable (Switch)
+- Save button (upserts row), Reset button
 
-### Migration
+Sanitization on save:
+- Parse the pasted HTML, extract the first `<iframe>` `src`
+- Accept ONLY if URL host is `www.google.com` and path starts with `/maps/embed` (also allow `maps.google.com/maps`)
+- Reject anything else with toast error ("Only Google Maps embed iframes are allowed")
+- Store the original embed_code string AND a normalized `src` so the frontend never injects arbitrary HTML
+- Strip any `<script>` tags defensively
 
-1. Drop the existing three `site-assets` policies on `storage.objects`.
-2. Recreate them with an inline check against `public.user_roles`:
-   ```sql
-   EXISTS (
-     SELECT 1 FROM public.user_roles
-     WHERE user_id = auth.uid() AND role = 'admin'
-   )
-   ```
-   for SELECT/INSERT/UPDATE/DELETE on `bucket_id = 'site-assets'` (INSERT/UPDATE use `WITH CHECK`, DELETE/UPDATE use `USING`).
-3. `GRANT EXECUTE ON FUNCTION public.is_admin(), public.has_role(uuid, app_role) TO authenticated;` so other policies relying on these helpers also keep working.
+## 3. Frontend section — `src/components/site/LocationMap.tsx`
 
-No application code changes are needed — `onUpload()` in `src/routes/admin.services.$id.tsx` is already correct (uploads to `site-assets`, then updates `services.image_url`, then invalidates caches).
+- Reads `useSetting<LocationMapSettings>("location_map")`
+- Returns `null` if `!is_enabled` or no valid src
+- Renders a section: title + description + responsive container with rounded corners (`luxury-card`, `rounded-2xl`, `overflow-hidden`)
+- Renders `<iframe src={sanitizedSrc} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" className="w-full h-[420px] md:h-[480px] border-0">` — built from validated src, never `dangerouslySetInnerHTML`
 
-## Verification
+## 4. Home page placement — `src/routes/index.tsx`
 
-After the migration:
-- Reload the Edit Service page, click Upload, pick an image.
-- Expect: "Image updated" toast, the preview thumbnail updates, and the public service detail page hero image refreshes.
+Insert `<LocationMap />` between the existing CTA section and `<SocialBar />`. No other changes.
+
+## 5. Types
+
+Add `LocationMapSettings` type next to other setting types in `src/lib/site-data.ts`:
+```ts
+export type LocationMapSettings = {
+  title: string; description: string;
+  embed_code: string; embed_src: string; is_enabled: boolean;
+};
+```
+
+## Technical Details
+
+- Security: only iframe `src` is rendered (no raw HTML injection); strict host allowlist (`google.com` / `maps.google.com`); URL parsed via `new URL()`.
+- Persistence: leverages existing `site_settings` table — no new table, RLS, or grants needed beyond extending the existing public-read policy.
+- Realtime updates: same pattern as hero/about/contact — admin saves → next homepage load (or React Query refetch) shows new map.
+- Responsive: iframe `w-full`, height `420px` mobile / `480px` desktop.
+
+## Out of scope
+No changes to footer, social bar, or other admin sections.
