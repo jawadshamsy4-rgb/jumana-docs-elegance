@@ -166,6 +166,7 @@ function Home() {
         </div>
       </section>
 
+      <LocationMap />
       <SocialBar />
       <Footer />
     </div>
