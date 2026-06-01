@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  LayoutDashboard, Briefcase, FileText, Palette, Inbox, LogOut, ExternalLink, UserCog, Share2,
+  LayoutDashboard, Briefcase, FileText, Palette, Inbox, LogOut, ExternalLink, UserCog, Share2, MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
