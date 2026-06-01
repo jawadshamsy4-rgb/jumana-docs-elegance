@@ -18,6 +18,7 @@ const nav: { to: string; label: string; icon: any; exact?: boolean }[] = [
   { to: "/admin/content", label: "Content", icon: FileText },
   { to: "/admin/branding", label: "Branding", icon: Palette },
   { to: "/admin/social", label: "Social Media", icon: Share2 },
+  { to: "/admin/location", label: "Location Map", icon: MapPin },
   { to: "/admin/inquiries", label: "Inquiries", icon: Inbox },
   { to: "/admin/account", label: "Account", icon: UserCog },
 ];
