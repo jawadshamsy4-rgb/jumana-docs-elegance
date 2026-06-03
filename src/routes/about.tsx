@@ -8,11 +8,13 @@ import { useSetting, type AboutSettings } from "@/lib/site-data";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About | Jumanah Typing & Documents Clearing" },
-      { name: "description", content: "Jumanah is a UAE-based documents clearing and PRO services firm built on precision, discretion, and trust." },
-      { property: "og:title", content: "About Jumanah Typing & Documents Clearing" },
-      { property: "og:description", content: "Founded by Tanvirul Islam — premium UAE documents clearing." },
+      { title: "About Jumanah — UAE Documents Clearing & PRO" },
+      { name: "description", content: "Jumanah is a UAE-based documents clearing and PRO services firm built on precision, discretion, and trust. Founded by Tanvirul Islam." },
+      { property: "og:title", content: "About Jumanah — UAE Documents Clearing & PRO" },
+      { property: "og:description", content: "UAE documents clearing and PRO services led by founder Tanvirul Islam." },
+      { property: "og:url", content: "https://jumanahdocs.lovable.app/about" },
     ],
+    links: [{ rel: "canonical", href: "https://jumanahdocs.lovable.app/about" }],
   }),
   component: AboutPage,
 });
@@ -72,7 +74,7 @@ function AboutPage() {
           <div className="flex items-start justify-between gap-4 mb-8">
             <div>
               <div className="text-xs tracking-[0.3em] uppercase text-gold mb-3">Leadership</div>
-              <h3 className="font-display text-3xl font-bold mb-1">{a.founder_name}</h3>
+              <h2 className="font-display text-3xl font-bold mb-1">{a.founder_name}</h2>
               <p className="text-sm text-muted-foreground tracking-widest uppercase">{a.founder_title}</p>
             </div>
             {(a as any).founder_image_url && (

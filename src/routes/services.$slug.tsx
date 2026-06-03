@@ -7,14 +7,34 @@ import { getServiceImage } from "@/lib/services";
 import { getIcon } from "@/lib/icon-map";
 
 export const Route = createFileRoute("/services/$slug")({
-  head: ({ params }) => {
-    const title = `Service | Jumanah Typing & Documents Clearing`;
+  loader: async ({ params }) => {
+    const { supabase } = await import("@/integrations/supabase/client");
+    const { data } = await supabase
+      .from("services")
+      .select("title,description,slug,image_url")
+      .eq("slug", params.slug)
+      .maybeSingle();
+    return { service: data as { title: string; description: string; slug: string; image_url: string | null } | null };
+  },
+  head: ({ params, loaderData }) => {
+    const s = loaderData?.service;
+    const title = s ? `${s.title} — Jumanah UAE` : "Service — Jumanah UAE";
+    const desc = s?.description ?? "UAE documents clearing services by Jumanah.";
+    const url = `https://jumanahdocs.lovable.app/services/${params.slug}`;
     return {
       meta: [
         { title },
-        { name: "description", content: "UAE documents clearing services." },
+        { name: "description", content: desc },
         { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "article" },
+        ...(s?.image_url ? [
+          { property: "og:image", content: s.image_url },
+          { name: "twitter:image", content: s.image_url },
+        ] : []),
       ],
+      links: [{ rel: "canonical", href: url }],
     };
   },
   errorComponent: () => (

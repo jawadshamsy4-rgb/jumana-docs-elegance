@@ -16,11 +16,22 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Jumanah Typing & Documents Clearing | UAE Documents Services" },
-      { name: "description", content: "UAE all documents clearing services — visa processing, Emirates ID, trade license, business setup and PRO services in Ras Al Khaimah." },
-      { property: "og:title", content: "Jumanah Typing & Documents Clearing" },
-      { property: "og:description", content: "Premium UAE documents clearing, PRO services and business setup." },
+      { title: "Jumanah Typing & Documents Clearing — UAE PRO" },
+      { name: "description", content: "UAE documents clearing services — visa processing, Emirates ID, trade license, business setup and PRO services in Ras Al Khaimah." },
+      { property: "og:title", content: "Jumanah Typing & Documents Clearing — UAE PRO" },
+      { property: "og:description", content: "Premium UAE documents clearing, PRO services and business setup in Ras Al Khaimah." },
+      { property: "og:url", content: "https://jumanahdocs.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://jumanahdocs.lovable.app/" }],
+    scripts: [{
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Jumanah Typing & Documents Clearing",
+        url: "https://jumanahdocs.lovable.app/",
+      }),
+    }],
   }),
   component: Home,
 });
@@ -234,7 +245,7 @@ function ConsultationForm({ whatsapp }: { whatsapp: string }) {
   return (
     <div className="luxury-card rounded-2xl p-8 backdrop-blur-sm">
       <div className="text-xs tracking-[0.3em] uppercase text-red-accent mb-2">Get a Free Consultation</div>
-      <h3 className="font-display text-2xl md:text-3xl font-bold mb-6">Start the <span className="gold-text">Conversation</span></h3>
+      <h2 className="font-display text-2xl md:text-3xl font-bold mb-6">Start the <span className="gold-text">Conversation</span></h2>
 
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="grid sm:grid-cols-2 gap-4">

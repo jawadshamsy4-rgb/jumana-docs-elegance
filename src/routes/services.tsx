@@ -7,11 +7,13 @@ import { useServices } from "@/lib/site-data";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Services | Jumanah Typing & Documents Clearing" },
+      { title: "UAE Documents Clearing Services — Jumanah" },
       { name: "description", content: "Visa processing, Emirates ID, trade license, PRO services, business setup, document typing and attestation across the UAE." },
       { property: "og:title", content: "UAE Documents Clearing Services — Jumanah" },
-      { property: "og:description", content: "Full-service UAE documents clearing and PRO." },
+      { property: "og:description", content: "Full-service UAE documents clearing, visa, Emirates ID, trade license and PRO." },
+      { property: "og:url", content: "https://jumanahdocs.lovable.app/services" },
     ],
+    links: [{ rel: "canonical", href: "https://jumanahdocs.lovable.app/services" }],
   }),
   component: ServicesPage,
 });
