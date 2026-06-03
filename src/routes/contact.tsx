@@ -54,7 +54,7 @@ function ContactPage() {
   const [sending, setSending] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", email: "", service: "", message: "" });
 
-  const heading = contact?.heading || "Let's talk";
+  const heading = contact?.heading || "Contact Jumanah — UAE Documents Clearing";
   const subtitle = contact?.subtitle || "Reach out for a quick consultation — we typically respond within the hour.";
   const phone1 = contact?.phone1 || "054 549 9790";
   const phone2 = contact?.phone2 || "054 547 6784";
