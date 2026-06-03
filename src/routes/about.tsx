@@ -8,11 +8,13 @@ import { useSetting, type AboutSettings } from "@/lib/site-data";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About | Jumanah Typing & Documents Clearing" },
-      { name: "description", content: "Jumanah is a UAE-based documents clearing and PRO services firm built on precision, discretion, and trust." },
-      { property: "og:title", content: "About Jumanah Typing & Documents Clearing" },
-      { property: "og:description", content: "Founded by Tanvirul Islam — premium UAE documents clearing." },
+      { title: "About Jumanah — UAE Documents Clearing & PRO" },
+      { name: "description", content: "Jumanah is a UAE-based documents clearing and PRO services firm built on precision, discretion, and trust. Founded by Tanvirul Islam." },
+      { property: "og:title", content: "About Jumanah — UAE Documents Clearing & PRO" },
+      { property: "og:description", content: "UAE documents clearing and PRO services led by founder Tanvirul Islam." },
+      { property: "og:url", content: "https://jumanahdocs.lovable.app/about" },
     ],
+    links: [{ rel: "canonical", href: "https://jumanahdocs.lovable.app/about" }],
   }),
   component: AboutPage,
 });
