@@ -74,7 +74,7 @@ function AboutPage() {
           <div className="flex items-start justify-between gap-4 mb-8">
             <div>
               <div className="text-xs tracking-[0.3em] uppercase text-gold mb-3">Leadership</div>
-              <h3 className="font-display text-3xl font-bold mb-1">{a.founder_name}</h3>
+              <h2 className="font-display text-3xl font-bold mb-1">{a.founder_name}</h2>
               <p className="text-sm text-muted-foreground tracking-widest uppercase">{a.founder_title}</p>
             </div>
             {(a as any).founder_image_url && (
