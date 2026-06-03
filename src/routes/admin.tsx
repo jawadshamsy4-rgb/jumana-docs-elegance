@@ -1,9 +1,9 @@
 import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  LayoutDashboard, Briefcase, FileText, Palette, Inbox, LogOut, ExternalLink, UserCog, Share2, MapPin,
+  LayoutDashboard, Briefcase, FileText, Palette, Inbox, LogOut, ExternalLink, UserCog, Share2, MapPin, Menu, X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -27,10 +27,13 @@ function AdminLayout() {
   const { session, loading, isAdmin, adminLoading } = useAuth();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!loading && !session) navigate({ to: "/auth" });
   }, [loading, session, navigate]);
+
+  useEffect(() => { setSidebarOpen(false); }, [pathname]);
 
   if (loading || (session && adminLoading)) {
     return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading admin…</div>;
@@ -50,12 +53,33 @@ function AdminLayout() {
 
   return (
     <div className="min-h-screen flex bg-muted/30">
-      <aside className="w-60 bg-card border-r border-border flex flex-col">
-        <Link to="/admin" className="px-5 py-5 border-b border-border">
-          <div className="font-display text-lg font-bold gold-text">JUMANAH</div>
-          <div className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase">Admin Panel</div>
-        </Link>
-        <nav className="flex-1 p-3 space-y-1">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-30 bg-card border-b border-border flex items-center justify-between px-4 h-14">
+        <button onClick={() => setSidebarOpen(true)} aria-label="Open menu" className="p-2 -ml-2">
+          <Menu className="w-5 h-5" />
+        </button>
+        <div className="font-display text-sm font-bold gold-text">JUMANAH</div>
+        <div className="w-9" />
+      </div>
+
+      {sidebarOpen && (
+        <button
+          aria-label="Close menu"
+          className="md:hidden fixed inset-0 z-40 bg-black/50"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      <aside className={`fixed md:static inset-y-0 left-0 z-50 w-60 bg-card border-r border-border flex flex-col transform transition-transform duration-200 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}>
+        <div className="flex items-center justify-between px-5 py-5 border-b border-border">
+          <Link to="/admin" onClick={() => setSidebarOpen(false)}>
+            <div className="font-display text-lg font-bold gold-text">JUMANAH</div>
+            <div className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase">Admin Panel</div>
+          </Link>
+          <button onClick={() => setSidebarOpen(false)} aria-label="Close menu" className="md:hidden p-2 -mr-2">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
           {nav.map((n) => {
             const active = n.exact ? pathname === n.to : pathname.startsWith(n.to);
             return (
@@ -78,7 +102,7 @@ function AdminLayout() {
           </Button>
         </div>
       </aside>
-      <main className="flex-1 overflow-auto"><div className="p-8 max-w-6xl mx-auto"><Outlet /></div></main>
+      <main className="flex-1 overflow-auto pt-14 md:pt-0"><div className="p-6 md:p-8 max-w-6xl mx-auto"><Outlet /></div></main>
     </div>
   );
 }
