@@ -140,9 +140,9 @@ function ContactPage() {
           </div>
           <Field label="Email" name="email" type="email" value={form.email} onChange={onChange("email")} />
           <div>
-            <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Service Required</label>
+            <label htmlFor="contact-service" className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Service Required</label>
             <select
-              name="service" value={form.service} onChange={onChange("service")}
+              id="contact-service" name="service" value={form.service} onChange={onChange("service")}
               className="mt-2 w-full bg-secondary border border-border focus:border-[var(--gold)] outline-none rounded-lg p-3.5 text-foreground transition-colors"
             >
               <option value="">Select a service (optional)</option>
@@ -150,9 +150,9 @@ function ContactPage() {
             </select>
           </div>
           <div>
-            <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Message</label>
+            <label htmlFor="contact-message" className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Message</label>
             <textarea
-              name="message" required rows={5} value={form.message} onChange={onChange("message")}
+              id="contact-message" name="message" required rows={5} value={form.message} onChange={onChange("message")}
               className="mt-2 w-full bg-secondary border border-border focus:border-[var(--gold)] outline-none rounded-lg p-4 text-foreground transition-colors"
             />
           </div>
@@ -171,11 +171,12 @@ function Field({ label, name, type = "text", value, onChange, required = true }:
   label: string; name: string; type?: string; value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; required?: boolean;
 }) {
+  const id = `contact-${name}`;
   return (
     <div>
-      <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground">{label}</label>
+      <label htmlFor={id} className="text-xs tracking-[0.2em] uppercase text-muted-foreground">{label}</label>
       <input
-        required={required} name={name} type={type} value={value} onChange={onChange}
+        id={id} required={required} name={name} type={type} value={value} onChange={onChange}
         className="mt-2 w-full bg-secondary border border-border focus:border-[var(--gold)] outline-none rounded-lg p-3.5 text-foreground transition-colors"
       />
     </div>
