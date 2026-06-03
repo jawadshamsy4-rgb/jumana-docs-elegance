@@ -12,11 +12,30 @@ import { z } from "zod";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact | Jumanah Typing & Documents Clearing" },
-      { name: "description", content: "Contact Jumanah for UAE documents clearing, visa, Emirates ID, trade license and PRO services. Ras Al Khaimah." },
-      { property: "og:title", content: "Contact Jumanah" },
-      { property: "og:description", content: "Get in touch with our UAE documents clearing team." },
+      { title: "Contact Jumanah — UAE Documents Clearing" },
+      { name: "description", content: "Contact Jumanah for UAE documents clearing, visa, Emirates ID, trade license and PRO services. Based in Ras Al Khaimah." },
+      { property: "og:title", content: "Contact Jumanah — UAE Documents Clearing" },
+      { property: "og:description", content: "Get in touch with our UAE documents clearing team in Ras Al Khaimah." },
+      { property: "og:url", content: "https://jumanahdocs.lovable.app/contact" },
     ],
+    links: [{ rel: "canonical", href: "https://jumanahdocs.lovable.app/contact" }],
+    scripts: [{
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        name: "Jumanah Typing & Documents Clearing",
+        url: "https://jumanahdocs.lovable.app/contact",
+        telephone: "+971-50-506-4847",
+        email: "jumanahdoc@gmail.com",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Dahan",
+          addressLocality: "Ras Al Khaimah",
+          addressCountry: "AE",
+        },
+      }),
+    }],
   }),
   component: ContactPage,
 });
