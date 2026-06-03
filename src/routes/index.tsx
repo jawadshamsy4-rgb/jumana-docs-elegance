@@ -245,7 +245,7 @@ function ConsultationForm({ whatsapp }: { whatsapp: string }) {
   return (
     <div className="luxury-card rounded-2xl p-8 backdrop-blur-sm">
       <div className="text-xs tracking-[0.3em] uppercase text-red-accent mb-2">Get a Free Consultation</div>
-      <h3 className="font-display text-2xl md:text-3xl font-bold mb-6">Start the <span className="gold-text">Conversation</span></h3>
+      <h2 className="font-display text-2xl md:text-3xl font-bold mb-6">Start the <span className="gold-text">Conversation</span></h2>
 
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="grid sm:grid-cols-2 gap-4">
