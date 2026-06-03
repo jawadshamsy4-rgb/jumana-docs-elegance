@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -27,6 +28,11 @@ import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.
 import { Route as ApiAdminUploadServiceImageRouteImport } from './routes/api/admin/upload-service-image'
 import { Route as AdminServicesIdRouteImport } from './routes/admin.services.$id'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/account': typeof AdminAccountRoute
   '/admin/branding': typeof AdminBrandingRoute
   '/admin/content': typeof AdminContentRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/account': typeof AdminAccountRoute
   '/admin/branding': typeof AdminBrandingRoute
   '/admin/content': typeof AdminContentRoute
@@ -159,6 +167,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/services': typeof ServicesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/account': typeof AdminAccountRoute
   '/admin/branding': typeof AdminBrandingRoute
   '/admin/content': typeof AdminContentRoute
@@ -180,6 +189,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/services'
+    | '/sitemap.xml'
     | '/admin/account'
     | '/admin/branding'
     | '/admin/content'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/services'
+    | '/sitemap.xml'
     | '/admin/account'
     | '/admin/branding'
     | '/admin/content'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/services'
+    | '/sitemap.xml'
     | '/admin/account'
     | '/admin/branding'
     | '/admin/content'
@@ -237,11 +249,19 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiAdminUploadServiceImageRoute: typeof ApiAdminUploadServiceImageRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
@@ -409,6 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiAdminUploadServiceImageRoute: ApiAdminUploadServiceImageRoute,
 }
 export const routeTree = rootRouteImport
