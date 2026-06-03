@@ -16,11 +16,22 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Jumanah Typing & Documents Clearing | UAE Documents Services" },
-      { name: "description", content: "UAE all documents clearing services — visa processing, Emirates ID, trade license, business setup and PRO services in Ras Al Khaimah." },
-      { property: "og:title", content: "Jumanah Typing & Documents Clearing" },
-      { property: "og:description", content: "Premium UAE documents clearing, PRO services and business setup." },
+      { title: "Jumanah Typing & Documents Clearing — UAE PRO" },
+      { name: "description", content: "UAE documents clearing services — visa processing, Emirates ID, trade license, business setup and PRO services in Ras Al Khaimah." },
+      { property: "og:title", content: "Jumanah Typing & Documents Clearing — UAE PRO" },
+      { property: "og:description", content: "Premium UAE documents clearing, PRO services and business setup in Ras Al Khaimah." },
+      { property: "og:url", content: "https://jumanahdocs.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://jumanahdocs.lovable.app/" }],
+    scripts: [{
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Jumanah Typing & Documents Clearing",
+        url: "https://jumanahdocs.lovable.app/",
+      }),
+    }],
   }),
   component: Home,
 });
